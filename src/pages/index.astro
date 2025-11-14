@@ -1,40 +1,49 @@
-<nav class="nav-bar">
-  <ul class="nav-list">
-    <li><a href="/">Home</a></li>
-    <li><a href="/products">Our Products</a></li>
-    <li><a href="/mythic-origins">Mythic Origins</a></li>
-    <li><a href="/import-guide">Import Guide</a></li>
-    <li><a href="/compliance">Compliance</a></li>
-    <li><a href="/wholesale-login">Wholesale Login</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/contact">Contact Us</a></li>
-  </ul>
-</nav>
+---
+const heading = "⚡ Mythic Performance Meets Modern Infrastructure";
+const paragraph = At Abhimanyu 3 Ltd, we believe a website should be more than a digital storefront — it should be a living extension of your brand’s soul. Powered by Astro and deployed through Netlify’s blazing-fast edge infrastructure, our platform transcends static limitations. With Streaming SSR and On-Demand Builders, every page responds like a warrior in motion — swift, purposeful, and precise. Whether you're importing premium Indian goods or exploring our mythic origins, the experience is seamless, secure, and scalable.;
+---
+
+<section class="mythic-performance">
+  <h2>{heading}</h2>
+  <p>{paragraph}</p>
+  <a href="https://docs.netlify.com/" target="_blank" class="docs-button">Read the Docs</a>
+</section>
 
 <style>
-  .nav-bar {
-    background-color: #000;
-    padding: 1rem;
+  .mythic-performance {
+    background-color: #0a0a23;
+    color: #ffffff;
+    padding: 2rem;
     text-align: center;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 2rem auto;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
-  .nav-list {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding: 0;
-    margin: 0;
+  .mythic-performance h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #ffcc00;
   }
 
-  .nav-list a {
+  .mythic-performance p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .docs-button {
+    background-color: #ff0055;
     color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
   }
 
-  .nav-list a:hover {
-    text-decoration: underline;
+  .docs-button:hover {
+    background-color: #ff3366;
   }
 </style>
