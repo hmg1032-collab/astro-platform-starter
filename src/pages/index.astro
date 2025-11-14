@@ -1,49 +1,20 @@
 ---
-const heading = "⚡ Mythic Performance Meets Modern Infrastructure";
-const paragraph = At Abhimanyu 3 Ltd, we believe a website should be more than a digital storefront — it should be a living extension of your brand’s soul. Powered by Astro and deployed through Netlify’s blazing-fast edge infrastructure, our platform transcends static limitations. With Streaming SSR and On-Demand Builders, every page responds like a warrior in motion — swift, purposeful, and precise. Whether you're importing premium Indian goods or exploring our mythic origins, the experience is seamless, secure, and scalable.;
+import Header from '../components/Header.astro';
+import MythicPerformance from '../components/MythicPerformance.astro';
 ---
 
-<section class="mythic-performance">
-  <h2>{heading}</h2>
-  <p>{paragraph}</p>
-  <a href="https://docs.netlify.com/" target="_blank" class="docs-button">Read the Docs</a>
-</section>
+<Header />
+
+<main class="home-content">
+  <MythicPerformance />
+</main>
 
 <style>
-  .mythic-performance {
-    background-color: #0a0a23;
-    color: #ffffff;
+  .home-content {
     padding: 2rem;
+    min-height: 60vh;
+    background-color: #f5f5f5;
+    color: #333;
     text-align: center;
-    border-radius: 12px;
-    max-width: 800px;
-    margin: 2rem auto;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-  }
-
-  .mythic-performance h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #ffcc00;
-  }
-
-  .mythic-performance p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-
-  .docs-button {
-    background-color: #ff0055;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-
-  .docs-button:hover {
-    background-color: #ff3366;
   }
 </style>
