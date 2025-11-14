@@ -1,9 +1,10 @@
 ---
-const logoSrc = "/horse-eye-logo.png"; // Make sure this file is inside the public/ folder
+const logoSrc = "/horse-eye-logo.png"; // Your logo image in public/
 const tagline = "Your wholesale partner in purity";
+const backgroundImage = "/coffee-background.jpg"; // Add this image to public/
 ---
 
-<div class="logo-container">
+<div class="logo-section">
   <a href="/" class="logo-link" aria-label="Abhimanyu 3">
     <img src={logoSrc} alt="Abhimanyu 3 logo" class="logo-image" />
   </a>
@@ -11,34 +12,32 @@ const tagline = "Your wholesale partner in purity";
 </div>
 
 <style>
-  .logo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background-color: #000; /* Optional: dark background to make logo and text pop */
+  .logo-section {
+    background-color: indigo;
+    background-image: url({backgroundImage});
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 2px solid #fff;
   }
 
   .logo-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
+    display: inline-block;
   }
 
   .logo-image {
-    height: 80px; /* Adjust size as needed */
+    height: 80px;
     width: auto;
     display: block;
+    margin: 0 auto;
   }
 
   .tagline {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     font-size: 1.2rem;
     color: white;
     font-style: italic;
     font-weight: 500;
-    text-align: center;
   }
 </style>
