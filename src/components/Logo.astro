@@ -4,8 +4,11 @@ const tagline = "Your wholesale partner in purity";
 ---
 
 <div class="logo-container">
-  <a href="/" class="logo-link">
-    <img src="/horse-eye-logo.png" alt={brandName} class="logo-image" />
+  <a href="/" class="logo-link" aria-label={brandName}>
+    <!-- Logo image from public folder -->
+    <img src="/horse-eye-logo.png" alt={${brandName} logo} class="logo-image" />
+    
+    <!-- Text beside the logo -->
     <div class="logo-text">
       <h1 class="brand-name">{brandName}</h1>
       <p class="tagline">{tagline}</p>
@@ -17,6 +20,7 @@ const tagline = "Your wholesale partner in purity";
   .logo-container {
     display: flex;
     align-items: center;
+    justify-content: center; /* centers logo + text in header */
     gap: 1rem;
   }
 
@@ -28,7 +32,7 @@ const tagline = "Your wholesale partner in purity";
   }
 
   .logo-image {
-    height: 64px;
+    height: 64px; /* adjust size as needed */
     width: auto;
   }
 
@@ -36,14 +40,14 @@ const tagline = "Your wholesale partner in purity";
     margin: 0;
     font-size: 2.4rem;
     font-weight: 900;
-    color: white;
-    letter-spacing: 1px;
+    color: white; /* Abhimanyu 3 in white */
+    letter-spacing: 0.5px;
   }
 
   .tagline {
     margin: 0;
-    font-size: 1.2rem;
-    color: white;
+    font-size: 1.1rem;
+    color: white; /* tagline also in white */
     font-style: italic;
     font-weight: 500;
   }
