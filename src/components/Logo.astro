@@ -1,16 +1,11 @@
-const tagline = "Your wholesale partner in purity";
+---
+const logoSrc = "/horse-eye-logo.png"; // <-- make sure this file is inside /public
 ---
 
 <div class="logo-container">
-  <a href="/" class="logo-link" aria-label={brandName}>
-    <!-- Logo image from public folder -->
-    <img src="/horse-eye-logo.png" alt={${brandName} logo} class="logo-image" />
-    
-    <!-- Text beside the logo -->
-    <div class="logo-text">
-      <h1 class="brand-name">{brandName}</h1>
-      <p class="tagline">{tagline}</p>
-    </div>
+  <a href="/" class="logo-link" aria-label="Abhimanyu 3">
+    <!-- Logo image only -->
+    <img src={logoSrc} alt="Abhimanyu 3 logo" class="logo-image" />
   </a>
 </div>
 
@@ -18,35 +13,18 @@ const tagline = "Your wholesale partner in purity";
   .logo-container {
     display: flex;
     align-items: center;
-    justify-content: center; /* centers logo + text in header */
-    gap: 1rem;
+    justify-content: center; /* centers the logo in header */
   }
 
   .logo-link {
     text-decoration: none;
-    color: inherit;
     display: flex;
     align-items: center;
   }
 
   .logo-image {
-    height: 64px; /* adjust size as needed */
+    height: 80px; /* adjust size as needed */
     width: auto;
-  }
-
-  .brand-name {
-    margin: 0;
-    font-size: 2.4rem;
-    font-weight: 900;
-    color: white; /* Abhimanyu 3 in white */
-    letter-spacing: 0.5px;
-  }
-
-  .tagline {
-    margin: 0;
-    font-size: 1.1rem;
-    color: white; /* tagline also in white */
-    font-style: italic;
-    font-weight: 500;
+    display: block;
   }
 </style>
