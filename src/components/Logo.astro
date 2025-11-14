@@ -1,30 +1,44 @@
 ---
-const logoSrc = "/horse-eye-logo.png"; // <-- make sure this file is inside /public
+const logoSrc = "/horse-eye-logo.png"; // Make sure this file is inside the public/ folder
+const tagline = "Your wholesale partner in purity";
 ---
 
 <div class="logo-container">
   <a href="/" class="logo-link" aria-label="Abhimanyu 3">
-    <!-- Logo image only -->
     <img src={logoSrc} alt="Abhimanyu 3 logo" class="logo-image" />
   </a>
+  <p class="tagline">{tagline}</p>
 </div>
 
 <style>
   .logo-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center; /* centers the logo in header */
+    justify-content: center;
+    padding: 1rem;
+    background-color: #000; /* Optional: dark background to make logo and text pop */
   }
 
   .logo-link {
-    text-decoration: none;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-decoration: none;
   }
 
   .logo-image {
-    height: 80px; /* adjust size as needed */
+    height: 80px; /* Adjust size as needed */
     width: auto;
     display: block;
+  }
+
+  .tagline {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: white;
+    font-style: italic;
+    font-weight: 500;
+    text-align: center;
   }
 </style>
