@@ -1,53 +1,4 @@
-[2:58 PM, 11/14/2025] Hemanth Mg: ---
-const brandName = "Abhimanyu 3";
-const tagline = "Your wholesale partner in purity";
 ---
-
-<div class="logo-container">
-  <a href="/" class="logo-link">
-    <!-- Replace this image with your horse-and-eye logo file -->
-    <img src="/horse-eye-logo.png" alt={brandName} class="logo-image" />
-    <div class="logo-text">
-      <h1>{brandName}</h1>
-      <p>{tagline}</p>
-    </div>
-  </a>
-</div>
-
-<style>
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .logo-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-  }
-
-  .logo-image {
-    height: 56px;
-    width: auto;
-  }
-
-  .logo-text h1 {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #222;
-  }
-
-  .logo-text p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #555;
-    font-style: italic;
-  }
-</style>
-[3:11 PM, 11/14/2025] Hemanth Mg: ---
 const brandName = "Abhimanyu 3";
 const tagline = "Your wholesale partner in purity";
 ---
@@ -56,8 +7,8 @@ const tagline = "Your wholesale partner in purity";
   <a href="/" class="logo-link">
     <img src="/horse-eye-logo.png" alt={brandName} class="logo-image" />
     <div class="logo-text">
-      <h1>{brandName}</h1>
-      <p>{tagline}</p>
+      <h1 class="brand-name">{brandName}</h1>
+      <p class="tagline">{tagline}</p>
     </div>
   </a>
 </div>
@@ -81,17 +32,17 @@ const tagline = "Your wholesale partner in purity";
     width: auto;
   }
 
-  .logo-text h1 {
+  .brand-name {
     margin: 0;
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-size: 2.4rem;
+    font-weight: 900;
     color: white;
     letter-spacing: 1px;
   }
 
-  .logo-text p {
+  .tagline {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: white;
     font-style: italic;
     font-weight: 500;
