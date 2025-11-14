@@ -1,7 +1,6 @@
 ---
-const logoSrc = "/horse-eye-logo.png"; // Your logo image in public/
+const logoSrc = "/abhimanyu-logo.png"; // Rename your uploaded image to this and place in public/
 const tagline = "Your wholesale partner in purity";
-const backgroundImage = "/coffee-background.jpg"; // Add this image to public/
 ---
 
 <div class="logo-section">
@@ -14,21 +13,17 @@ const backgroundImage = "/coffee-background.jpg"; // Add this image to public/
 <style>
   .logo-section {
     background-color: indigo;
-    background-image: url({backgroundImage});
+    background-image: url(/coffee-background.jpg); /* Optional: coffee beans background */
     background-size: cover;
     background-position: center;
     padding: 2rem;
     text-align: center;
-    border-bottom: 2px solid #fff;
-  }
-
-  .logo-link {
-    display: inline-block;
   }
 
   .logo-image {
-    height: 80px;
+    height: 120px; /* Adjust height as needed */
     width: auto;
+    max-width: 100%;
     display: block;
     margin: 0 auto;
   }
