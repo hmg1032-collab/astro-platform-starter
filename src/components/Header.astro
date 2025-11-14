@@ -1,18 +1,59 @@
 ---
-import Logo from './Logo.astro';
+import Logo from "../Logo.astro";
 ---
 
-<header>
-  <Logo />
-  <nav class="nav-bar">
-    <ul class="nav-list">
-      <li><a href="/">Home</a></li>
-      <li><a href="/products">Our Products</a></li>
-      <li><a href="/mythic-origins">Mythic Origins</a></li>
-      <li><a href="/import-guide">Import Guide</a></li>
-      <li><a href="/compliance">Compliance</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/contact">Contact Us</a></li>
-    </ul>
-  </nav>
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <Logo />
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Our Products</a></li>
+        <li><a href="/mythic-origins">Mythic Origins</a></li>
+        <li><a href="/import-guide">Import Guide</a></li>
+        <li><a href="/compliance">Compliance</a></li>
+        <li><a href="/wholesale-login">Wholesale Login</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
+
+<style>
+  .header {
+    background-color: indigo;
+    padding: 1rem;
+    color: white;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  .nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .nav a:hover {
+    text-decoration: underline;
+    color: #ffcc00;
+  }
+</style>
