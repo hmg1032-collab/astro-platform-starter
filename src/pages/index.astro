@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Abimanyu 3 Wholesale">
+	<main class="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white p-6">
+		<div class="max-w-3xl w-full text-center space-y-8">
+			<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">
+				<span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+					Abimanyu 3
+				</span>
+				<br />
+				Wholesale
+			</h1>
+			
+			<p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
+				Your premium destination for wholesale goods. <br/>
+				<span class="text-sm text-gray-500">Built with Astro, React & Tailwind CSS.</span>
+			</p>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+				<div class="p-6 rounded-2xl bg-gray-800 border border-gray-700 hover:border-blue-500 transition duration-300 group cursor-pointer">
+					<h2 class="text-2xl font-bold mb-3 group-hover:text-blue-400">Documentation</h2>
+					<p class="text-gray-400">Explore our API and integration guides to get started quickly.</p>
+				</div>
+				<div class="p-6 rounded-2xl bg-gray-800 border border-gray-700 hover:border-emerald-500 transition duration-300 group cursor-pointer">
+					<h2 class="text-2xl font-bold mb-3 group-hover:text-emerald-400">Catalog</h2>
+					<p class="text-gray-400">Browse our extensive collection of wholesale products.</p>
+				</div>
+			</div>
+
+			<div class="pt-10">
+				<button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition shadow-lg shadow-blue-500/30">
+					Get Started
+				</button>
+			</div>
+		</div>
+	</main>
+</Layout>
