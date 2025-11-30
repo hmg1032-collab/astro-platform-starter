@@ -1,39 +1,236 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const coffees = [
+	{
+		name: 'Arabica Plantation AA',
+		profile: 'Shade-grown arabica from India’s Western Ghats, curated for clean cups with citrus brightness and silky body.',
+		readiness: 'Fresh-crop lots prepared to UK import specifications.'
+	},
+	{
+		name: 'Robusta Cherry AB',
+		profile: 'Sun-dried robusta cherries delivering creamy crema, chocolate depth, and excellent blending structure.',
+		readiness: 'Bulk volumes with consistent screen size and moisture control.'
+	},
+	{
+		name: 'Sampler Ready – Sealed 1 kg',
+		profile: 'Vacuum-sealed discovery packs for roaster evaluation and menu development.',
+		readiness: 'Shelf-stable, courier-ready within 24 hours of request.'
+	}
+];
+
+const services = [
+	'Direct sourcing from Rainforest Alliance aligned estates across Karnataka, Tamil Nadu, and Kerala.',
+	'UK-based logistics coordination with bonded warehousing and customs-ready documentation.',
+	'Custom roasting partnerships, private-label packaging, and mixed-container planning.',
+	'Quality assurance with on-ground cupping labs and moisture, density, and screen grading reports.'
+];
+
+const additionalLines = ['South Indian spices (cardamom, pepper, nutmeg)', 'Premium CTC and Orthodox teas', 'Single-estate cacao and allied origin goods'];
+
+const galleryImages = [
+	{
+		src: '/images/coffee-cups.jpg',
+		alt: 'Steaming cappuccino served in stacked white cups beside roasted coffee beans.',
+		caption: 'Service-ready cappuccinos highlight the smooth body our UK clients favor.'
+	},
+	{
+		src: '/images/coffee-beans.jpg',
+		alt: 'Close-up of roasted coffee beans spilling from a burlap sack.',
+		caption: 'Grade-specific green and roasted beans maintain traceability back to estate.'
+	}
+];
 ---
 
-<Layout title="Abimanyu 3 Wholesale">
-	<main class="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white p-6">
-		<div class="max-w-3xl w-full text-center space-y-8">
-			<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">
-				<span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-					Abimanyu 3
-				</span>
-				<br />
-				Wholesale
-			</h1>
-			
-			<p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
-				Your premium destination for wholesale goods. <br/>
-				<span class="text-sm text-gray-500">Built with Astro, React & Tailwind CSS.</span>
-			</p>
-
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-				<div class="p-6 rounded-2xl bg-gray-800 border border-gray-700 hover:border-blue-500 transition duration-300 group cursor-pointer">
-					<h2 class="text-2xl font-bold mb-3 group-hover:text-blue-400">Documentation</h2>
-					<p class="text-gray-400">Explore our API and integration guides to get started quickly.</p>
+<Layout title="Abimanyu 3 Ltd | Indian Coffee Importer" description="Abimanyu 3 Ltd supplies speciality Indian coffee to UK roasters, cafés, and wholesalers with grades including Arabica Plantation AA and Robusta Cherry AB.">
+	<main class="min-h-screen bg-[#050a18] text-slate-100">
+		<section class="relative isolate overflow-hidden bg-gradient-to-br from-[#132a4a] via-[#0b1d39] to-sky-900/60">
+			<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),_transparent_50%)]"></div>
+			<div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-28 md:flex-row md:items-center md:gap-16 lg:px-8">
+				<div class="md:w-1/2 space-y-6">
+					<div class="flex justify-center">
+						<img
+							src="/images/abimanyu-logo.jpg"
+							alt="Abimanyu 3 Ltd logo"
+							class="h-48 w-auto rounded-2xl border border-amber-500/40 bg-white/5 object-contain p-4 shadow-xl shadow-amber-500/30 sm:h-64 md:h-72 xl:h-80"
+							loading="lazy"
+						/>
+					</div>
+					<p class="uppercase tracking-[0.4em] text-xs text-amber-300/80">UK import · export · wholesale</p>
+					<h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+						Delivering speciality Indian coffee to the United Kingdom
+					</h1>
+					<p class="text-lg text-slate-300">
+						Abimanyu 3 Ltd sources certified estates across southern India, bringing reliable, flavour-rich coffee to UK roasters, cafés, and wholesalers. Spices, teas, and allied origin produce follow through the same trusted supply chain.
+					</p>
+					<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+						<a
+							href="mailto:abimanyu3wholesale@gmail.com"
+							class="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/40 transition hover:bg-amber-400"
+						>
+							Request availability sheet
+						</a>
+						<a
+							href="tel:+447341652445"
+							class="inline-flex items-center justify-center rounded-full border border-amber-400/60 px-6 py-3 text-base font-semibold text-amber-200 transition hover:border-amber-300 hover:text-amber-100"
+						>
+							Call +44 7341 652445
+						</a>
+					</div>
+					<p class="text-sm text-slate-400">
+						Based in the United Kingdom with fulfilment partners across London, Birmingham, and Felixstowe.
+					</p>
 				</div>
-				<div class="p-6 rounded-2xl bg-gray-800 border border-gray-700 hover:border-emerald-500 transition duration-300 group cursor-pointer">
-					<h2 class="text-2xl font-bold mb-3 group-hover:text-emerald-400">Catalog</h2>
-					<p class="text-gray-400">Browse our extensive collection of wholesale products.</p>
+				<div class="relative md:w-1/2">
+					<div class="absolute -inset-6 -z-10 rounded-3xl bg-sky-400/20 blur-3xl"></div>
+					<div class="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black/40 backdrop-blur">
+						<h2 class="text-lg font-semibold text-amber-200">Spotlight Availability</h2>
+						<ul class="mt-5 space-y-4 text-sm text-slate-200">
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-sky-400/80"></span>
+								<span>
+									<strong>Arabica Plantation AA</strong> — fully washed lots, moisture ≤ 12%, SCAA 83+ cupping approvals.
+								</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-sky-400/80"></span>
+								<span>
+									<strong>Robusta Cherry AB</strong> — sun-dried, screen 17+, ideal for espresso blends and instant bases.
+								</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-sky-400/80"></span>
+								<span>
+									<strong>Sampler Ready · Sealed 1 kg</strong> — vacuum-packed discovery sets couriered within the UK.
+								</span>
+							</li>
+						</ul>
+						<p class="mt-6 text-xs leading-relaxed text-slate-400">
+							Export documentation, ICO registration, and phyto certificates supplied as standard. Shelf-life and roast profiles available on request.
+						</p>
+					</div>
 				</div>
 			</div>
+		</section>
 
-			<div class="pt-10">
-				<button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition shadow-lg shadow-blue-500/30">
-					Get Started
-				</button>
+		<section class="border-t border-white/10 bg-[#0a152a] py-16">
+			<div class="mx-auto flex max-w-6xl flex-col gap-10 px-6 lg:flex-row lg:items-center lg:gap-12 lg:px-8">
+				<div class="lg:w-2/5 space-y-4">
+					<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Cup quality in focus</p>
+					<h2 class="text-3xl font-bold text-white sm:text-4xl">From cupping table to café counter</h2>
+					<p class="text-base text-slate-300">
+						Visual benchmarks reassure partners of the cup-ready consistency available through Abimanyu 3 Ltd — whether the requirement is silky arabica for espresso menus or robusta structure for blends.
+					</p>
+				</div>
+				<div class="lg:w-3/5 grid gap-6 sm:grid-cols-2">
+					{galleryImages.map((image) => (
+						<figure class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl shadow-black/40">
+							<img src={image.src} alt={image.alt} loading="lazy" class="h-64 w-full object-cover transition duration-500 group-hover:scale-105" />
+							<figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent px-5 pb-5 pt-16 text-sm text-slate-100">
+								{image.caption}
+							</figcaption>
+						</figure>
+					))}
+				</div>
 			</div>
-		</div>
+		</section>
+
+		<section id="coffee" class="border-t border-white/10 bg-[#0a152a] py-20">
+			<div class="mx-auto max-w-6xl px-6 lg:px-8">
+				<div class="max-w-3xl">
+					<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Coffee portfolio</p>
+					<h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Indian grades curated for UK roasters</h2>
+					<p class="mt-4 text-base text-slate-300">
+						Each grade is contracted directly with estate partners, offering transparent farm provenance, shipment traceability, and reliable cup profiles for both speciality and commercial applications.
+					</p>
+				</div>
+				<div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+					{coffees.map((coffee) => (
+						<article class="group flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
+							<h3 class="text-2xl font-semibold text-white">{coffee.name}</h3>
+							<p class="mt-3 text-sm leading-relaxed text-slate-300">
+								{coffee.profile}
+							</p>
+							<p class="mt-4 text-sm font-medium text-amber-200">{coffee.readiness}</p>
+							<div class="mt-auto pt-6 text-xs text-slate-400">
+								Cupping reports, moisture metrics, and ICO marks provided per shipment.
+							</div>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="border-t border-white/10 bg-[#0a152a] py-20">
+			<div class="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-5 lg:px-8">
+				<div class="lg:col-span-2">
+					<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">How the team supports growth</p>
+					<h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">
+						End-to-end sourcing, compliance, and flavour stewardship
+					</h2>
+					<p class="mt-4 text-base text-slate-300">
+						The Abimanyu 3 Ltd supply chain blends on-ground estate relationships in India with UK-based fulfilment expertise, ensuring predictable arrivals, quality control, and responsive customer service.
+					</p>
+				</div>
+				<div class="lg:col-span-3">
+					<ul class="grid gap-6 sm:grid-cols-2">
+						{services.map((service) => (
+							<li class="rounded-2xl border border-white/5 bg-white/[0.02] p-6 text-sm text-slate-200 shadow-lg shadow-black/30">
+								{service}
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="border-t border-white/10 bg-[#0a152a] py-20">
+			<div class="mx-auto max-w-6xl px-6 lg:px-8">
+				<div class="rounded-3xl border border-amber-400/30 bg-white/[0.03] px-6 py-12 shadow-2xl shadow-amber-500/10 sm:px-12">
+					<h2 class="text-3xl font-bold text-white sm:text-4xl">Beyond coffee, one supply partner</h2>
+					<p class="mt-4 text-base text-slate-300">
+						While coffee remains the current focus, Abimanyu 3 Ltd maintains import approvals and sourcing pipelines for high-value Indian agro commodities ready to scale with client demand.
+					</p>
+					<ul class="mt-6 grid gap-4 sm:grid-cols-3">
+						{additionalLines.map((line) => (
+							<li class="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-amber-100 shadow-md shadow-black/30">
+								{line}
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section id="contact" class="border-t border-white/10 bg-gradient-to-br from-[#123057] via-[#0b1d37] to-sky-900/50 py-20">
+			<div class="mx-auto max-w-4xl px-6 text-center lg:px-8">
+				<h2 class="text-3xl font-bold text-white sm:text-4xl">Let's plan your next shipment</h2>
+				<p class="mt-4 text-base text-slate-300">
+					Share your roast profile targets, preferred grades, and delivery timelines. The team responds within one UK business day with availability, samples, and logistics options.
+				</p>
+				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+					<a
+						href="mailto:abimanyu3wholesale@gmail.com"
+						class="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/40 transition hover:bg-amber-400"
+					>
+						abimanyu3wholesale@gmail.com
+					</a>
+					<a
+						href="tel:+447341652445"
+						class="inline-flex items-center justify-center rounded-full border border-amber-400/60 px-6 py-3 text-base font-semibold text-amber-100 transition hover:border-amber-300 hover:text-amber-50"
+					>
+						+44 7341 652445
+					</a>
+				</div>
+				<p class="mt-6 text-xs uppercase tracking-[0.3em] text-amber-200/70">Company No. — Abimanyu 3 Ltd · United Kingdom</p>
+			</div>
+		</section>
+
+		<footer class="border-t border-white/10 bg-[#040d18] py-8">
+			<div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-sm text-slate-500 sm:flex-row lg:px-8">
+				<p>© {new Date().getFullYear()} Abimanyu 3 Ltd. All rights reserved.</p>
+				<p>Import · Export · Wholesale Coffee & Commodities</p>
+			</div>
+		</footer>
 	</main>
 </Layout>
