@@ -5,17 +5,58 @@ const coffees = [
 	{
 		name: 'Arabica Plantation AA',
 		profile: 'Shade-grown arabica from India’s Western Ghats, curated for clean cups with citrus brightness and silky body.',
-		readiness: 'Fresh-crop lots prepared to UK import specifications.'
+		readiness: 'Fresh-crop lots prepared to UK import specifications.',
+		image: '/images/grades/arabica-aa.jpg',
+		imageAlt: 'Arabica coffee leaves and cherries on a branch with morning dew.'
 	},
 	{
 		name: 'Robusta Cherry AB',
 		profile: 'Sun-dried robusta cherries delivering creamy crema, chocolate depth, and excellent blending structure.',
-		readiness: 'Bulk volumes with consistent screen size and moisture control.'
+		readiness: 'Bulk volumes with consistent screen size and moisture control.',
+		image: '/images/grades/robusta-ab.jpg',
+		imageAlt: 'Close-up of ripe coffee cherries clustered together on the branch.'
 	},
 	{
 		name: 'Sampler Ready – Sealed 1 kg',
 		profile: 'Vacuum-sealed discovery packs for roaster evaluation and menu development.',
-		readiness: 'Shelf-stable, courier-ready within 24 hours of request.'
+		readiness: 'Shelf-stable, courier-ready within 24 hours of request.',
+		image: '/images/grades/sampler.jpg',
+		imageAlt: 'Coffee packaging and sample bags arranged on a countertop.'
+	},
+	{
+		name: 'Mysore Nuggets Extra Bold',
+		profile: 'Premium arabica with extra-large screen sizing, clean cup and cocoa-sweet finish favored in UK espresso blends.',
+		readiness: 'Screen 19+ lots moisture-stabilised for consistent espresso roasting.',
+		image: '/images/grades/mysore-nuggets.jpg',
+		imageAlt: 'Roasted coffee beans spilling from a burlap sack.'
+	},
+	{
+		name: 'Arabica Plantation PB',
+		profile: 'Peaberry lots showing bright acidity and citrus clarity, ideal for UK speciality roasters seeking lively single origins.',
+		readiness: 'Density and size graded, packed in export-ready 60 kg bags with QC reports.',
+		image: '/images/grades/plantation-pb.jpg',
+		imageAlt: 'Coffee cherries turning red on a plantation branch.'
+	},
+	{
+		name: 'Monsooned Malabar AA',
+		profile: 'Low-acid, mellow-bodied monsooned profile delivering crema weight and spice-laced sweetness for blends.',
+		readiness: 'AA screen selections monsooned to spec with moisture and colour certificates per container.',
+		image: '/images/grades/monsooned-malabar.jpg',
+		imageAlt: 'Stacks of coffee sacks inside a warehouse with warm light.'
+	},
+	{
+		name: 'Robusta Cherry C',
+		profile: 'Cost-effective robusta offering strong crema support and cocoa bitterness suited to instant and commercial blends.',
+		readiness: 'C-grade volumes sun-dried and uniform, shipped with fumigation and pest-clearance documentation.',
+		image: '/images/grades/robusta-c.jpg',
+		imageAlt: 'Coffee beans drying on a raised bed under sunlight.'
+	},
+	{
+		name: 'Organic Estate Microlots (Coorg, Chikmagalur)',
+		profile: 'Traceable organic arabica microlots with floral top-notes and spice complexity, appealing to UK boutique roasters.',
+		readiness: 'Certified estates with sample roast curves supplied; limited seasonal availability.',
+		image: '/images/grades/organic-estate.jpg',
+		imageAlt: 'Lush green coffee hills and forest canopy in India.'
 	}
 ];
 
@@ -45,7 +86,7 @@ const galleryImages = [
 <Layout title="Abimanyu 3 Ltd | Indian Coffee Importer" description="Abimanyu 3 Ltd supplies speciality Indian coffee to UK roasters, cafés, and wholesalers with grades including Arabica Plantation AA and Robusta Cherry AB.">
 	<main class="min-h-screen bg-[#050a18] text-slate-100">
 		<section class="relative isolate overflow-hidden bg-gradient-to-br from-[#132a4a] via-[#0b1d39] to-sky-900/60">
-			<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),_transparent_50%)]"></div>
+			<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),_transparent_50%)] pointer-events-none"></div>
 			<div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-28 md:flex-row md:items-center md:gap-16 lg:px-8">
 				<div class="md:w-1/2 space-y-6">
 					<div class="flex justify-center">
@@ -108,6 +149,22 @@ const galleryImages = [
 						<p class="mt-6 text-xs leading-relaxed text-slate-400">
 							Export documentation, ICO registration, and phyto certificates supplied as standard. Shelf-life and roast profiles available on request.
 						</p>
+						<div class="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
+							<a
+								href="mailto:abimanyu3wholesale@gmail.com?subject=Availability%20Sheet%20Request&body=Hi%20Abimanyu%20team%2C%20please%20share%20the%20latest%20availability%20sheet."
+								class="inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-white/5 px-4 py-2 text-amber-100 transition hover:border-amber-300 hover:bg-amber-400/10 hover:text-amber-50"
+							>
+								<span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+								Email availability sheet
+							</a>
+							<a
+								href="tel:+447341652445"
+								class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 px-4 py-2 text-amber-100 transition hover:border-amber-300 hover:bg-white/5 hover:text-amber-50"
+							>
+								<span class="h-2.5 w-2.5 rounded-full bg-sky-400"></span>
+								Call +44 7341 652445
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -146,14 +203,27 @@ const galleryImages = [
 				</div>
 				<div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 					{coffees.map((coffee) => (
-						<article class="group flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
-							<h3 class="text-2xl font-semibold text-white">{coffee.name}</h3>
-							<p class="mt-3 text-sm leading-relaxed text-slate-300">
-								{coffee.profile}
-							</p>
-							<p class="mt-4 text-sm font-medium text-amber-200">{coffee.readiness}</p>
-							<div class="mt-auto pt-6 text-xs text-slate-400">
-								Cupping reports, moisture metrics, and ICO marks provided per shipment.
+						<article class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
+							{coffee.image && (
+								<>
+									<img
+										src={coffee.image}
+										alt={coffee.imageAlt ?? `${coffee.name} coffee background`}
+										loading="lazy"
+										class="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-80"
+									/>
+									<div class="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-slate-950/65 to-slate-900/60 transition duration-300 group-hover:from-slate-950/80 group-hover:via-slate-900/60 group-hover:to-slate-900/55"></div>
+								</>
+							)}
+							<div class="relative z-10">
+								<h3 class="text-2xl font-semibold text-white">{coffee.name}</h3>
+								<p class="mt-3 text-sm leading-relaxed text-slate-200">
+									{coffee.profile}
+								</p>
+								<p class="mt-4 text-sm font-medium text-amber-200">{coffee.readiness}</p>
+								<div class="mt-6 text-xs text-slate-200/80">
+									Cupping reports, moisture metrics, and ICO marks provided per shipment.
+								</div>
 							</div>
 						</article>
 					))}
