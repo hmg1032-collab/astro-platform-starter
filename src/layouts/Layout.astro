@@ -25,6 +25,37 @@ const { title, description = 'Abimanyu 3 Ltd connects UK buyers with speciality 
 		<title>{title}</title>
 	</head>
 	<body>
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-slate-950 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+		>
+			Skip to content
+		</a>
+
+		<header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/60 backdrop-blur">
+			<nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-4 lg:px-8" aria-label="Main navigation">
+				<a href="/" class="flex items-center gap-3 text-white">
+					<span class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-amber-400/40 bg-white/5 text-sm font-bold tracking-tight text-amber-200">
+						A3
+					</span>
+					<span class="text-sm font-semibold tracking-wide">Abimanyu 3 Ltd</span>
+				</a>
+
+				<div class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium text-slate-200">
+					<a href="/" class="transition hover:text-amber-200">Home</a>
+					<a href="/#catalogue" class="transition hover:text-amber-200">Catalogue</a>
+					<a href="/#delivery-payment" class="transition hover:text-amber-200">Delivery &amp; Payment</a>
+					<a href="/#contact" class="transition hover:text-amber-200">Contact</a>
+					<a
+						href="/track-your-delivery"
+						class="inline-flex items-center rounded-full border border-amber-400/60 px-4 py-2 text-amber-100 transition hover:border-amber-300 hover:bg-white/5 hover:text-amber-50"
+					>
+						Track Your Delivery
+					</a>
+				</div>
+			</nav>
+		</header>
+
 		<slot />
 	</body>
 </html>
