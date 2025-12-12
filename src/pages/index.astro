@@ -1,62 +1,138 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const coffees = [
+const cataloguePdfPath = '/Abimanyu3_CoffeeSpice_Catalogue_UK_2025.pdf';
+const pricingEmail = 'info@abimanyu3wholesale.com';
+const whatsappNumber = '447341652445';
+const whatsappPrefillText = 'Please send me the Abimanyu 3 Ltd Catalogue';
+const whatsappCatalogueUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappPrefillText)}`;
+
+const coffeeCatalogue = [
 	{
 		name: 'Arabica Plantation AA',
-		profile: 'Shade-grown arabica from India’s Western Ghats, curated for clean cups with citrus brightness and silky body.',
-		readiness: 'Fresh-crop lots prepared to UK import specifications.',
+		format: 'Green / Roasted',
+		description: 'Shade-grown arabica curated for clean cups with citrus brightness and a silky body.',
+		origin: 'India (Western Ghats; estate- and lot-traceable).',
+		qualityNotes: 'Fully washed; moisture managed to export spec; QC documentation available per shipment.',
 		image: '/images/grades/arabica-aa.jpg',
 		imageAlt: 'Arabica coffee leaves and cherries on a branch with morning dew.'
 	},
 	{
 		name: 'Robusta Cherry AB',
-		profile: 'Sun-dried robusta cherries delivering creamy crema, chocolate depth, and excellent blending structure.',
-		readiness: 'Bulk volumes with consistent screen size and moisture control.',
+		format: 'Green / Roasted',
+		description: 'Sun-dried robusta delivering creamy crema, chocolate depth, and strong blending structure.',
+		origin: 'India (South India; lot origins shared with samples).',
+		qualityNotes: 'Screen and moisture controls applied; suitable for espresso blends and instant bases.',
 		image: '/images/grades/robusta-ab.jpg',
 		imageAlt: 'Close-up of ripe coffee cherries clustered together on the branch.'
 	},
 	{
-		name: 'Sampler Ready – Sealed 1 kg',
-		profile: 'Vacuum-sealed discovery packs for roaster evaluation and menu development.',
-		readiness: 'Shelf-stable, courier-ready within 24 hours of request.',
+		name: 'Sampler Ready – Sealed 1 kg',
+		format: 'Green / Roasted',
+		description: 'Vacuum-sealed discovery packs for roaster evaluation and menu development.',
+		origin: 'UK-packed from current-lot inventory (origins stated on pack).',
+		qualityNotes: 'Shelf-stable, courier-ready; ideal for cupping, trial roasts, and QC sign-off.',
 		image: '/images/grades/sampler.jpg',
 		imageAlt: 'Coffee packaging and sample bags arranged on a countertop.'
 	},
 	{
 		name: 'Mysore Nuggets Extra Bold',
-		profile: 'Premium arabica with extra-large screen sizing, clean cup and cocoa-sweet finish favored in UK espresso blends.',
-		readiness: 'Screen 19+ lots moisture-stabilised for consistent espresso roasting.',
+		format: 'Green / Roasted',
+		description: 'Premium arabica with extra-large screen sizing and cocoa-sweet clarity for espresso blends.',
+		origin: 'India (Karnataka; estate-linked supply).',
+		qualityNotes: 'Extra-bold screen selections; moisture stabilised; consistent density for repeat roasts.',
 		image: '/images/grades/mysore-nuggets.jpg',
 		imageAlt: 'Roasted coffee beans spilling from a burlap sack.'
 	},
 	{
 		name: 'Arabica Plantation PB',
-		profile: 'Peaberry lots showing bright acidity and citrus clarity, ideal for UK speciality roasters seeking lively single origins.',
-		readiness: 'Density and size graded, packed in export-ready 60 kg bags with QC reports.',
+		format: 'Green / Roasted',
+		description: 'Peaberry selections offering bright acidity and citrus clarity for lively single origins.',
+		origin: 'India (estate-specific lots; full traceability provided).',
+		qualityNotes: 'Density and size graded; packed export-ready with QC reporting available.',
 		image: '/images/grades/plantation-pb.jpg',
 		imageAlt: 'Coffee cherries turning red on a plantation branch.'
 	},
 	{
 		name: 'Monsooned Malabar AA',
-		profile: 'Low-acid, mellow-bodied monsooned profile delivering crema weight and spice-laced sweetness for blends.',
-		readiness: 'AA screen selections monsooned to spec with moisture and colour certificates per container.',
+		format: 'Green / Roasted',
+		description: 'Low-acid, mellow-bodied monsooned profile delivering crema weight and spice-laced sweetness.',
+		origin: 'India (Malabar Coast; monsooning lots documented by season).',
+		qualityNotes: 'AA screen selections; moisture and colour tracking; documentation supplied per container.',
 		image: '/images/grades/monsooned-malabar.jpg',
 		imageAlt: 'Stacks of coffee sacks inside a warehouse with warm light.'
 	},
 	{
 		name: 'Robusta Cherry C',
-		profile: 'Cost-effective robusta offering strong crema support and cocoa bitterness suited to instant and commercial blends.',
-		readiness: 'C-grade volumes sun-dried and uniform, shipped with fumigation and pest-clearance documentation.',
+		format: 'Green / Roasted',
+		description: 'Value robusta offering strong crema support and cocoa bitterness for commercial blends.',
+		origin: 'India (South India; origin details shared per lot).',
+		qualityNotes: 'Sun-dried and uniform; shipped with standard export documentation.',
 		image: '/images/grades/robusta-c.jpg',
 		imageAlt: 'Coffee beans drying on a raised bed under sunlight.'
 	},
 	{
 		name: 'Organic Estate Microlots (Coorg, Chikmagalur)',
-		profile: 'Traceable organic arabica microlots with floral top-notes and spice complexity, appealing to UK boutique roasters.',
-		readiness: 'Certified estates with sample roast curves supplied; limited seasonal availability.',
+		format: 'Green / Roasted',
+		description: 'Traceable microlots with floral top-notes and spice complexity for boutique roasters.',
+		origin: 'India (Coorg & Chikmagalur).',
+		qualityNotes: 'Certification and lot paperwork supplied where applicable; limited seasonal availability.',
 		image: '/images/grades/organic-estate.jpg',
 		imageAlt: 'Ripe coffee cherries on a Chikkamagalur estate tree canopy with natural shade.'
+	}
+];
+
+const spiceCatalogue = [
+	{
+		name: 'Green Cardamom',
+		description: 'Aromatic, high-oil spice suited to premium blends, bakery applications, and speciality retail.',
+		origin: 'India (South India; origin varies by lot).',
+		qualityNotes: 'Hand-sorted grades available; moisture-managed packing with QC notes on request.'
+	},
+	{
+		name: 'Black Pepper',
+		description: 'Bold, clean pepper profile for foodservice and processing with consistent grind performance.',
+		origin: 'India (South India; origin varies by lot).',
+		qualityNotes: 'Cleaned and sorted lots available; documentation shared per shipment.'
+	},
+	{
+		name: 'Nutmeg & Mace',
+		description: 'Warm, sweet-spice notes for bakery, beverages, and culinary manufacturing.',
+		origin: 'India (origin varies by lot).',
+		qualityNotes: 'Whole and processed formats available; quality checks shared with samples.'
+	},
+	{
+		name: 'Cloves',
+		description: 'Rich, eugenol-forward aroma for beverages, pickling, and spice blends.',
+		origin: 'India (origin varies by lot).',
+		qualityNotes: 'Cleaned lots; storage and moisture guidance provided for long-haul deliveries.'
+	},
+	{
+		name: 'Turmeric',
+		description: 'Bright colour and earthy sweetness for culinary and functional product applications.',
+		origin: 'India (origin varies by lot).',
+		qualityNotes: 'Whole and powder formats available; QA notes shared where requested.'
+	}
+];
+
+const sustainabilityCatalogue = [
+	{
+		name: 'Traceability & Documentation',
+		description: 'Lot traceability supported with shipment-ready paperwork and QC summaries.',
+		origin: 'India-to-UK supply chain (estate and lot details provided per offer).',
+		qualityNotes: 'Export documents, ICO registration, and phytosanitary paperwork shared as applicable.'
+	},
+	{
+		name: 'Sustainability-Led Sourcing',
+		description: 'Sourcing prioritised through long-term estate relationships and responsible growing practices.',
+		origin: 'India (estate partnerships across key growing regions).',
+		qualityNotes: 'Sustainability statements and supporting paperwork provided where available.'
+	},
+	{
+		name: 'Certifications (Where Applicable)',
+		description: 'Certified lots can be offered subject to seasonal availability and customer requirements.',
+		origin: 'India (certification varies by estate/lot).',
+		qualityNotes: 'Certificates and scope details provided with samples and contracts when applicable.'
 	}
 ];
 
@@ -66,8 +142,6 @@ const services = [
 	'Custom roasting partnerships, private-label packaging, and mixed-container planning.',
 	'Quality assurance with on-ground cupping labs and moisture, density, and screen grading reports.'
 ];
-
-const additionalLines = ['South Indian spices (cardamom, pepper, nutmeg)', 'Premium CTC and Orthodox teas', 'Single-estate cacao and allied origin goods'];
 
 const galleryImages = [
 	{
@@ -151,11 +225,11 @@ const galleryImages = [
 						</p>
 						<div class="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
 							<a
-								href="mailto:abimanyu3wholesale@gmail.com?subject=Availability%20Sheet%20Request&body=Hi%20Abimanyu%20team%2C%20please%20share%20the%20latest%20availability%20sheet."
+								href={`mailto:${pricingEmail}?subject=Catalogue%20Request&body=Hi%20Abimanyu%20team%2C%20please%20send%20the%20latest%20catalogue%20and%20let%20me%20know%20pricing%20for%20my%20target%20volumes.`}
 								class="inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-white/5 px-4 py-2 text-amber-100 transition hover:border-amber-300 hover:bg-amber-400/10 hover:text-amber-50"
 							>
 								<span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span>
-								Email availability sheet
+								Email catalogue request
 							</a>
 							<a
 								href="tel:+447341652445"
@@ -192,45 +266,156 @@ const galleryImages = [
 			</div>
 		</section>
 
-		<section id="coffee" class="border-t border-white/10 bg-[#0a152a] py-20">
+		<section id="catalogue" class="border-t border-white/10 bg-[#0a152a] py-20">
 			<div class="mx-auto max-w-6xl px-6 lg:px-8">
 				<div class="max-w-3xl">
-					<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Coffee portfolio</p>
-					<h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Indian grades curated for UK roasters</h2>
+					<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Catalogue</p>
+					<h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Coffee, spices, and compliance — built for wholesale</h2>
 					<p class="mt-4 text-base text-slate-300">
-						Each grade is contracted directly with estate partners, offering transparent farm provenance, shipment traceability, and reliable cup profiles for both speciality and commercial applications.
+						Products are supplied with documentation and QC support suitable for UK import requirements. Pricing is not listed online and is shared based on grade, order size, and delivery terms.
+					</p>
+					<div class="mt-8 rounded-2xl border border-amber-400/30 bg-white/[0.03] p-6 text-sm text-slate-200 shadow-xl shadow-black/30">
+						<p class="font-semibold text-white">Pricing & catalogue requests</p>
+						<p class="mt-2 leading-relaxed text-slate-300">
+							For pricing and catalogue requests, please contact us at <a class="text-amber-200 underline decoration-amber-400/40 underline-offset-4" href={`mailto:${pricingEmail}`}>{pricingEmail}</a>.
+							Pricing is tailored to your order size, grade, and delivery terms.
+						</p>
+						<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+							<a
+								href={cataloguePdfPath}
+								class="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400"
+								download
+							>
+								Download Catalogue
+							</a>
+							<a
+								href={whatsappCatalogueUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center justify-center rounded-full border border-amber-400/60 px-6 py-3 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/5 hover:text-amber-50"
+							>
+								Get Catalogue on WhatsApp
+							</a>
+						</div>
+						<p class="mt-4 text-xs text-slate-400">
+							Note: WhatsApp auto-replies are configured in the WhatsApp Business account settings.
+						</p>
+					</div>
+				</div>
+
+				<div class="mt-14">
+					<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+						<div>
+							<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product category</p>
+							<h3 class="mt-2 text-2xl font-semibold text-white">Coffee Beans (Green & Roasted)</h3>
+						</div>
+						<p class="text-xs text-slate-400">Origins and QC details are shared per lot.</p>
+					</div>
+					<div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+						{coffeeCatalogue.map((coffee) => (
+							<article class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
+								{coffee.image && (
+									<>
+										<img
+											src={coffee.image}
+											alt={coffee.imageAlt ?? `${coffee.name} coffee background`}
+											loading="lazy"
+											class="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-80"
+										/>
+										<div class="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-slate-950/65 to-slate-900/60 transition duration-300 group-hover:from-slate-950/80 group-hover:via-slate-900/60 group-hover:to-slate-900/55"></div>
+									</>
+								)}
+								<div class="relative z-10">
+									<div class="flex flex-wrap items-start justify-between gap-2">
+										<h4 class="text-xl font-semibold text-white">{coffee.name}</h4>
+										<span class="rounded-full border border-amber-400/40 bg-white/5 px-3 py-1 text-xs font-semibold text-amber-100">
+											{coffee.format}
+										</span>
+									</div>
+									<dl class="mt-4 space-y-3 text-sm text-slate-200">
+										<div>
+											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Description</dt>
+											<dd class="mt-1 leading-relaxed">{coffee.description}</dd>
+										</div>
+										<div>
+											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Origin</dt>
+											<dd class="mt-1 leading-relaxed">{coffee.origin}</dd>
+										</div>
+										<div>
+											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Quality notes</dt>
+											<dd class="mt-1 leading-relaxed">{coffee.qualityNotes}</dd>
+										</div>
+									</dl>
+								</div>
+							</article>
+						))}
+					</div>
+					<p class="mt-6 text-xs text-slate-400">
+						Organic Estate Microlots image credit: Athira96, Chikkamagalur estate — licensed under CC&nbsp;BY-SA&nbsp;4.0 via Wikimedia Commons.
 					</p>
 				</div>
-				<div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-					{coffees.map((coffee) => (
-						<article class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
-							{coffee.image && (
-								<>
-									<img
-										src={coffee.image}
-										alt={coffee.imageAlt ?? `${coffee.name} coffee background`}
-										loading="lazy"
-										class="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-80"
-									/>
-									<div class="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-slate-950/65 to-slate-900/60 transition duration-300 group-hover:from-slate-950/80 group-hover:via-slate-900/60 group-hover:to-slate-900/55"></div>
-								</>
-							)}
-							<div class="relative z-10">
-								<h3 class="text-2xl font-semibold text-white">{coffee.name}</h3>
-								<p class="mt-3 text-sm leading-relaxed text-slate-200">
-									{coffee.profile}
-								</p>
-								<p class="mt-4 text-sm font-medium text-amber-200">{coffee.readiness}</p>
-								<div class="mt-6 text-xs text-slate-200/80">
-									Cupping reports, moisture metrics, and ICO marks provided per shipment.
-								</div>
-							</div>
-						</article>
-					))}
+
+				<div class="mt-16">
+					<div>
+						<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product category</p>
+						<h3 class="mt-2 text-2xl font-semibold text-white">Spice Portfolio</h3>
+						<p class="mt-3 max-w-3xl text-sm text-slate-300">
+							Import-ready spices are offered in wholesale formats with lot-level documentation and quality notes shared during sampling and contracting.
+						</p>
+					</div>
+					<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+						{spiceCatalogue.map((spice) => (
+							<article class="rounded-2xl border border-white/5 bg-white/[0.02] p-6 text-sm text-slate-200 shadow-xl shadow-black/25">
+								<h4 class="text-lg font-semibold text-white">{spice.name}</h4>
+								<dl class="mt-4 space-y-3">
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Description</dt>
+										<dd class="mt-1 leading-relaxed">{spice.description}</dd>
+									</div>
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Origin</dt>
+										<dd class="mt-1 leading-relaxed">{spice.origin}</dd>
+									</div>
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Quality notes</dt>
+										<dd class="mt-1 leading-relaxed">{spice.qualityNotes}</dd>
+									</div>
+								</dl>
+							</article>
+						))}
+					</div>
 				</div>
-				<p class="mt-6 text-xs text-slate-400">
-					Organic Estate Microlots image credit: Athira96, Chikkamagalur estate — licensed under CC&nbsp;BY-SA&nbsp;4.0 via Wikimedia Commons.
-				</p>
+
+				<div class="mt-16">
+					<div>
+						<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product category</p>
+						<h3 class="mt-2 text-2xl font-semibold text-white">Sustainability & Certifications</h3>
+						<p class="mt-3 max-w-3xl text-sm text-slate-300">
+							Compliance support and sustainability documentation are shared per offer, aligned to the grade, origin, and shipment structure.
+						</p>
+					</div>
+					<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+						{sustainabilityCatalogue.map((item) => (
+							<article class="rounded-2xl border border-white/5 bg-white/[0.02] p-6 text-sm text-slate-200 shadow-xl shadow-black/25">
+								<h4 class="text-lg font-semibold text-white">{item.name}</h4>
+								<dl class="mt-4 space-y-3">
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Description</dt>
+										<dd class="mt-1 leading-relaxed">{item.description}</dd>
+									</div>
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Origin</dt>
+										<dd class="mt-1 leading-relaxed">{item.origin}</dd>
+									</div>
+									<div>
+										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Quality notes</dt>
+										<dd class="mt-1 leading-relaxed">{item.qualityNotes}</dd>
+									</div>
+								</dl>
+							</article>
+						))}
+					</div>
+				</div>
 			</div>
 		</section>
 
@@ -257,24 +442,6 @@ const galleryImages = [
 			</div>
 		</section>
 
-		<section class="border-t border-white/10 bg-[#0a152a] py-20">
-			<div class="mx-auto max-w-6xl px-6 lg:px-8">
-				<div class="rounded-3xl border border-amber-400/30 bg-white/[0.03] px-6 py-12 shadow-2xl shadow-amber-500/10 sm:px-12">
-					<h2 class="text-3xl font-bold text-white sm:text-4xl">Beyond coffee, one supply partner</h2>
-					<p class="mt-4 text-base text-slate-300">
-						While coffee remains the current focus, Abimanyu 3 Ltd maintains import approvals and sourcing pipelines for high-value Indian agro commodities ready to scale with client demand.
-					</p>
-					<ul class="mt-6 grid gap-4 sm:grid-cols-3">
-						{additionalLines.map((line) => (
-							<li class="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-amber-100 shadow-md shadow-black/30">
-								{line}
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
-		</section>
-
 		<section id="contact" class="border-t border-white/10 bg-gradient-to-br from-[#123057] via-[#0b1d37] to-sky-900/50 py-20">
 			<div class="mx-auto max-w-4xl px-6 text-center lg:px-8">
 				<h2 class="text-3xl font-bold text-white sm:text-4xl">Let's plan your next shipment</h2>
@@ -283,10 +450,10 @@ const galleryImages = [
 				</p>
 				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
-						href="mailto:abimanyu3wholesale@gmail.com"
+						href={`mailto:${pricingEmail}`}
 						class="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/40 transition hover:bg-amber-400"
 					>
-						abimanyu3wholesale@gmail.com
+						{pricingEmail}
 					</a>
 					<a
 						href="tel:+447341652445"
