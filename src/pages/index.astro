@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 
 const cataloguePdfPath = '/Abimanyu3_CoffeeSpice_Catalogue_UK_2025.pdf';
 const pricingEmail = 'abimanyu3wholesale@gmail.com';
+const heroBackgroundImage = '/images/coffee-beans.jpg';
 const whatsappNumber = '447341652445';
 const whatsappPrefillText = 'Please send me the Abimanyu 3 Ltd Catalogue';
 const whatsappCatalogueUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappPrefillText)}`;
@@ -159,9 +160,14 @@ const galleryImages = [
 
 <Layout title="Abimanyu 3 Ltd | Indian Coffee Importer" description="Abimanyu 3 Ltd supplies speciality Indian coffee to UK roasters, cafés, and wholesalers with grades including Arabica Plantation AA and Robusta Cherry AB.">
 	<main id="main-content" class="min-h-screen bg-[#050a18] text-slate-100">
-		<section class="relative isolate overflow-hidden bg-gradient-to-br from-[#132a4a] via-[#0b1d39] to-sky-900/60">
+		<section
+			class="relative isolate overflow-hidden bg-[#050a18] bg-cover bg-center"
+			style={`background-image: url('${heroBackgroundImage}')`}
+		>
+			<div class="absolute inset-0 bg-gradient-to-br from-[#132a4a]/90 via-[#0b1d39]/90 to-sky-900/70 pointer-events-none"></div>
+			<div class="absolute inset-0 bg-slate-950/35 pointer-events-none"></div>
 			<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),_transparent_50%)] pointer-events-none"></div>
-			<div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-28 md:flex-row md:items-center md:gap-16 lg:px-8">
+			<div class="relative mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-28 md:flex-row md:items-center md:gap-16 lg:px-8">
 				<div class="md:w-1/2 space-y-6">
 					<div class="flex justify-center">
 						<img
