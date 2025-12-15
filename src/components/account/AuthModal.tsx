@@ -9,6 +9,7 @@ declare global {
 }
 
 type Mode = 'login' | 'signup';
+type IdentityAvailability = 'unknown' | 'available' | 'unavailable';
 
 const getRequestedMode = (): Mode | null => {
 	const path = window.location.pathname.toLowerCase();
@@ -25,11 +26,26 @@ const getRequestedMode = (): Mode | null => {
 
 const safeMessage = (err: unknown) => {
 	if (err && typeof err === 'object') {
+		const maybeJson = (err as { json?: unknown }).json;
+		if (maybeJson && typeof maybeJson === 'object') {
+			const jsonMsg = (maybeJson as { msg?: unknown }).msg;
+			if (typeof jsonMsg === 'string' && jsonMsg.trim()) return jsonMsg;
+
+			const jsonDesc = (maybeJson as { error_description?: unknown }).error_description;
+			if (typeof jsonDesc === 'string' && jsonDesc.trim()) return jsonDesc;
+
+			const jsonError = (maybeJson as { error?: unknown }).error;
+			if (typeof jsonError === 'string' && jsonError.trim()) return jsonError;
+		}
+
 		const maybeMessage = (err as { message?: unknown }).message;
 		if (typeof maybeMessage === 'string' && maybeMessage.trim()) return maybeMessage;
 
 		const maybeMsg = (err as { msg?: unknown }).msg;
 		if (typeof maybeMsg === 'string' && maybeMsg.trim()) return maybeMsg;
+
+		const maybeErrorDescription = (err as { error_description?: unknown }).error_description;
+		if (typeof maybeErrorDescription === 'string' && maybeErrorDescription.trim()) return maybeErrorDescription;
 	}
 	if (err instanceof Error && err.message) return err.message;
 	if (typeof err === 'string' && err.trim()) return err;
@@ -44,6 +60,22 @@ const toCustomerFacingError = (raw: string) => {
 		return 'Email not confirmed yet. Please use the confirmation link in your inbox, then sign in again.';
 	}
 
+	if (lower.includes('invalid login credentials') || (lower.includes('invalid') && lower.includes('credentials'))) {
+		return 'Incorrect email or password.';
+	}
+
+	if (lower.includes('user not found') || (lower.includes('not found') && lower.includes('user'))) {
+		return 'Account not found for this email. Please create an account first.';
+	}
+
+	if (lower.includes('user already exists') || lower.includes('already registered')) {
+		return 'An account already exists for this email. Please sign in instead.';
+	}
+
+	if (lower.includes('password') && (lower.includes('too short') || lower.includes('must be at least'))) {
+		return 'Password is too short. Please choose a longer password.';
+	}
+
 	if (lower.includes('failed to fetch') || lower.includes('networkerror')) {
 		return 'Login is unavailable right now. Please try again in a moment, or contact support if the issue persists.';
 	}
@@ -55,15 +87,28 @@ const toCustomerFacingError = (raw: string) => {
 	return message;
 };
 
+async function checkIdentityAvailability(): Promise<IdentityAvailability> {
+	try {
+		const res = await fetch('/.netlify/identity/settings', { headers: { Accept: 'application/json' } });
+		if (res.ok) return 'available';
+		if (res.status === 404) return 'unavailable';
+		return 'unknown';
+	} catch {
+		return 'unknown';
+	}
+}
+
 export default function AuthModal() {
 	const [open, setOpen] = React.useState(false);
 	const [mode, setMode] = React.useState<Mode>('login');
 	const [email, setEmail] = React.useState('');
 	const [password, setPassword] = React.useState('');
+	const [confirmPassword, setConfirmPassword] = React.useState('');
 	const [busy, setBusy] = React.useState(false);
 	const [busyMode, setBusyMode] = React.useState<Mode | null>(null);
 	const [error, setError] = React.useState<string | null>(null);
 	const [success, setSuccess] = React.useState<string | null>(null);
+	const [identityAvailability, setIdentityAvailability] = React.useState<IdentityAvailability>('unknown');
 
 	const emailRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -74,6 +119,7 @@ export default function AuthModal() {
 		setError(null);
 		setSuccess(null);
 		setPassword('');
+		setConfirmPassword('');
 	}, []);
 
 	const openWithMode = React.useCallback((nextMode: Mode = 'login') => {
@@ -81,7 +127,17 @@ export default function AuthModal() {
 		setOpen(true);
 		setError(null);
 		setSuccess(null);
+		setPassword('');
+		setConfirmPassword('');
 	}, []);
+
+	const setModeSafely = (nextMode: Mode) => {
+		setMode(nextMode);
+		setError(null);
+		setSuccess(null);
+		setPassword('');
+		setConfirmPassword('');
+	};
 
 	React.useEffect(() => {
 		try {
@@ -89,6 +145,8 @@ export default function AuthModal() {
 		} catch {
 			// If Identity is disabled for the site, the UI still renders and can show the error from requests.
 		}
+
+		void checkIdentityAvailability().then(setIdentityAvailability);
 
 		window.__abimanyuAuthModalOpen = (requested?: Mode) => openWithMode(requested ?? 'login');
 		window.__abimanyuAuthModalClose = close;
@@ -125,6 +183,10 @@ export default function AuthModal() {
 	const redirectAfterLogin = () => window.location.assign('/account');
 
 	const doLogin = async () => {
+		if (identityAvailability === 'unavailable') {
+			setError('Customer accounts are not enabled on this site yet. Please contact support.');
+			return;
+		}
 		setBusy(true);
 		setBusyMode('login');
 		setError(null);
@@ -142,6 +204,18 @@ export default function AuthModal() {
 	};
 
 	const doSignup = async () => {
+		if (identityAvailability === 'unavailable') {
+			setError('Customer accounts are not enabled on this site yet. Please contact support.');
+			return;
+		}
+		if (password.length < 8) {
+			setError('Password must be at least 8 characters.');
+			return;
+		}
+		if (password !== confirmPassword) {
+			setError('Passwords do not match.');
+			return;
+		}
 		setBusy(true);
 		setBusyMode('signup');
 		setError(null);
@@ -156,6 +230,7 @@ export default function AuthModal() {
 			);
 			setMode('login');
 			setPassword('');
+			setConfirmPassword('');
 		} catch (err) {
 			setError(toCustomerFacingError(safeMessage(err)));
 		} finally {
@@ -217,6 +292,7 @@ export default function AuthModal() {
 								if (event.key !== 'Enter') return;
 								if (busy) return;
 								if (!email.trim() || !password) return;
+								if (mode === 'signup' && password !== confirmPassword) return;
 								if (mode === 'signup') {
 									void doSignup();
 								} else {
@@ -228,6 +304,26 @@ export default function AuthModal() {
 						/>
 					</label>
 
+					{mode === 'signup' ? (
+						<label className="grid gap-1.5 text-sm">
+							<span className="font-medium text-slate-200">Confirm password</span>
+							<input
+								type="password"
+								autoComplete="new-password"
+								value={confirmPassword}
+								onChange={(event) => setConfirmPassword(event.target.value)}
+								onKeyDown={(event) => {
+									if (event.key !== 'Enter') return;
+									if (busy) return;
+									if (!email.trim() || !password || !confirmPassword) return;
+									void doSignup();
+								}}
+								className="h-12 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/30"
+								placeholder="Confirm password"
+							/>
+						</label>
+					) : null}
+
 					{error ? (
 						<p className="rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">{error}</p>
 					) : null}
@@ -235,12 +331,21 @@ export default function AuthModal() {
 						<p className="rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">{success}</p>
 					) : null}
 
+					{identityAvailability === 'unavailable' ? (
+						<p className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-slate-300">
+							Customer accounts are currently disabled. Please contact support.
+						</p>
+					) : null}
+
 					<div className="grid gap-3 sm:grid-cols-2">
 						<button
 							type="button"
-							disabled={busy || !email.trim() || !password}
+							disabled={busy || identityAvailability === 'unavailable' || !email.trim() || !password}
 							onClick={() => {
-								setMode('login');
+								if (mode !== 'login') {
+									setModeSafely('login');
+									return;
+								}
 								void doLogin();
 							}}
 							className="inline-flex h-12 w-full items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
@@ -249,9 +354,18 @@ export default function AuthModal() {
 						</button>
 						<button
 							type="button"
-							disabled={busy || !email.trim() || !password}
+							disabled={
+								busy ||
+								identityAvailability === 'unavailable' ||
+								!email.trim() ||
+								!password ||
+								(mode === 'signup' && (!confirmPassword || confirmPassword !== password))
+							}
 							onClick={() => {
-								setMode('signup');
+								if (mode !== 'signup') {
+									setModeSafely('signup');
+									return;
+								}
 								void doSignup();
 							}}
 							className="inline-flex h-12 w-full items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50 disabled:cursor-not-allowed disabled:opacity-70"
@@ -263,7 +377,7 @@ export default function AuthModal() {
 					<div className="flex items-center justify-between gap-4 text-xs text-slate-400">
 						<button
 							type="button"
-							onClick={() => setMode((prev) => (prev === 'login' ? 'signup' : 'login'))}
+							onClick={() => setModeSafely(mode === 'login' ? 'signup' : 'login')}
 							className="text-amber-200 underline decoration-amber-400/40 underline-offset-4"
 						>
 							{mode === 'login' ? 'New here? Create an account' : 'Already have an account? Sign in'}

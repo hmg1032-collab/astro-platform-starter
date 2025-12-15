@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as netlifyIdentity from 'netlify-identity-widget';
 
 type OrderStatus = 'processing' | 'shipped' | 'delivered';
+type IdentityAvailability = 'unknown' | 'available' | 'unavailable';
 
 type OrderLineItem = {
 	product: string;
@@ -80,6 +81,17 @@ async function apiGet<T>(path: string): Promise<T> {
 	return (await res.json()) as T;
 }
 
+async function checkIdentityAvailability(): Promise<IdentityAvailability> {
+	try {
+		const res = await fetch('/.netlify/identity/settings', { headers: { Accept: 'application/json' } });
+		if (res.ok) return 'available';
+		if (res.status === 404) return 'unavailable';
+		return 'unknown';
+	} catch {
+		return 'unknown';
+	}
+}
+
 const formatMoney = (currency: string, amount: number) => {
 	try {
 		return new Intl.NumberFormat('en-GB', { style: 'currency', currency }).format(amount);
@@ -117,6 +129,7 @@ export default function DeliveryDashboard() {
 	const [orders, setOrders] = React.useState<CustomerOrder[]>([]);
 	const [tab, setTab] = React.useState<'orders' | 'contact'>('orders');
 	const [needsAuth, setNeedsAuth] = React.useState(false);
+	const [identityAvailability, setIdentityAvailability] = React.useState<IdentityAvailability>('unknown');
 
 	React.useEffect(() => {
 		const onInit = async (user: netlifyIdentity.User | null) => {
@@ -156,6 +169,15 @@ export default function DeliveryDashboard() {
 			setError(err instanceof Error ? err.message : 'Failed to initialise sign-in');
 			setLoading(false);
 		}
+
+		void checkIdentityAvailability().then((availability) => {
+			setIdentityAvailability(availability);
+			if (availability === 'unavailable') {
+				setError('Customer accounts are not enabled on this site yet. Please contact support.');
+				setNeedsAuth(true);
+				setLoading(false);
+			}
+		});
 
 		return () => {
 			netlifyIdentity.off('init', onInit);
@@ -220,6 +242,7 @@ export default function DeliveryDashboard() {
 						<button
 							type="button"
 							onClick={() => window.__abimanyuAuthModalOpen?.('login')}
+							disabled={identityAvailability === 'unavailable'}
 							className="inline-flex h-11 items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400"
 						>
 							Sign in
@@ -227,6 +250,7 @@ export default function DeliveryDashboard() {
 						<button
 							type="button"
 							onClick={() => window.__abimanyuAuthModalOpen?.('signup')}
+							disabled={identityAvailability === 'unavailable'}
 							className="inline-flex h-11 items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50"
 						>
 							Create account
@@ -356,7 +380,7 @@ export default function DeliveryDashboard() {
 													target="_blank"
 													rel="noreferrer"
 												>
-													Open tracking
+													Track delivery
 												</a>
 											) : null}
 										</div>
