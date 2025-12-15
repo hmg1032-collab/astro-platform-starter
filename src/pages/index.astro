@@ -8,76 +8,76 @@ const whatsappNumber = '447341652445';
 const whatsappPrefillText = 'Please send me the Abimanyu 3 Ltd Catalogue';
 const whatsappCatalogueUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappPrefillText)}`;
 
+const samplePackOptions = [
+	{ grams: 100, label: '100g' },
+	{ grams: 250, label: '250g' },
+	{ grams: 500, label: '500g' },
+	{ grams: 1000, label: '1kg' }
+];
+
+const formatGbp = (value) =>
+	new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 2 }).format(value);
+
+const packPriceFromKg = (pricePerKgGbp, grams) => Number(((pricePerKgGbp * grams) / 1000).toFixed(2));
+
+const buildSampleRequestMailtoHref = (product, grams) => {
+	const packPriceGbp = product.samplePackPricesGbp?.[grams] ?? packPriceFromKg(product.pricePerKgGbp, grams);
+	const subject = `Sample request: ${product.name} — ${product.blend} (${grams}g)`;
+	const bodyLines = [
+		'Hi Abimanyu team,',
+		'',
+		'Please send a sample for:',
+		`- Product: ${product.name} (${product.blend})`,
+		`- Pack size: ${grams}g`,
+		`- Catalogue price: ${formatGbp(packPriceGbp)}`,
+		'',
+		'Delivery address:',
+		'- Name:',
+		'- Company:',
+		'- Address:',
+		'- Postcode:',
+		'- Phone:',
+		'',
+		'Thank you.'
+	];
+
+	return `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+};
+
 const coffeeCatalogue = [
 	{
-		name: 'Arabica Plantation AA',
-		format: 'Green / Roasted',
-		description: 'Shade-grown arabica curated for clean cups with citrus brightness and a silky body.',
-		origin: 'India (Western Ghats; estate- and lot-traceable).',
-		qualityNotes: 'Fully washed; moisture managed to export spec; QC documentation available per shipment.',
-		image: '/images/grades/arabica-aa.jpg',
-		imageAlt: 'Arabica coffee leaves and cherries on a branch with morning dew.'
-	},
-	{
-		name: 'Robusta Cherry AB',
-		format: 'Green / Roasted',
-		description: 'Sun-dried robusta delivering creamy crema, chocolate depth, and strong blending structure.',
-		origin: 'India (South India; lot origins shared with samples).',
-		qualityNotes: 'Screen and moisture controls applied; suitable for espresso blends and instant bases.',
-		image: '/images/grades/robusta-ab.jpg',
-		imageAlt: 'Close-up of ripe coffee cherries clustered together on the branch.'
-	},
-	{
-		name: 'Sampler Ready – Sealed 1 kg',
-		format: 'Green / Roasted',
-		description: 'Vacuum-sealed discovery packs for roaster evaluation and menu development.',
-		origin: 'UK-packed from current-lot inventory (origins stated on pack).',
-		qualityNotes: 'Shelf-stable, courier-ready; ideal for cupping, trial roasts, and QC sign-off.',
-		image: '/images/grades/sampler.jpg',
-		imageAlt: 'Coffee packaging and sample bags arranged on a countertop.'
-	},
-	{
-		name: 'Mysore Nuggets Extra Bold',
-		format: 'Green / Roasted',
-		description: 'Premium arabica with extra-large screen sizing and cocoa-sweet clarity for espresso blends.',
-		origin: 'India (Karnataka; estate-linked supply).',
-		qualityNotes: 'Extra-bold screen selections; moisture stabilised; consistent density for repeat roasts.',
-		image: '/images/grades/mysore-nuggets.jpg',
-		imageAlt: 'Roasted coffee beans spilling from a burlap sack.'
-	},
-	{
-		name: 'Arabica Plantation PB',
-		format: 'Green / Roasted',
-		description: 'Peaberry selections offering bright acidity and citrus clarity for lively single origins.',
-		origin: 'India (estate-specific lots; full traceability provided).',
-		qualityNotes: 'Density and size graded; packed export-ready with QC reporting available.',
-		image: '/images/grades/plantation-pb.jpg',
-		imageAlt: 'Coffee cherries turning red on a plantation branch.'
-	},
-	{
-		name: 'Monsooned Malabar AA',
-		format: 'Green / Roasted',
-		description: 'Low-acid, mellow-bodied monsooned profile delivering crema weight and spice-laced sweetness.',
-		origin: 'India (Malabar Coast; monsooning lots documented by season).',
-		qualityNotes: 'AA screen selections; moisture and colour tracking; documentation supplied per container.',
-		image: '/images/grades/monsooned-malabar.jpg',
-		imageAlt: 'Stacks of coffee sacks inside a warehouse with warm light.'
-	},
-	{
-		name: 'Robusta Cherry C',
-		format: 'Green / Roasted',
-		description: 'Value robusta offering strong crema support and cocoa bitterness for commercial blends.',
-		origin: 'India (South India; origin details shared per lot).',
-		qualityNotes: 'Sun-dried and uniform; shipped with standard export documentation.',
+		id: 'entry-level-blend-60-40',
+		tierLabel: 'Entry Level',
+		badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30',
+		name: 'Entry-Level Blend',
+		blend: '60% Robusta + 40% Arabica',
+		flavorNotes: 'Strong body, earthy, bold finish.',
+		pricePerKgGbp: 8,
+		samplePackPricesGbp: { 100: 0.8, 250: 2.0, 500: 4.0, 1000: 8.0 },
 		image: '/images/grades/robusta-c.jpg',
 		imageAlt: 'Coffee beans drying on a raised bed under sunlight.'
 	},
 	{
-		name: 'Organic Estate Microlots (Coorg, Chikmagalur)',
-		format: 'Green / Roasted',
-		description: 'Traceable microlots with floral top-notes and spice complexity for boutique roasters.',
-		origin: 'India (Coorg & Chikmagalur).',
-		qualityNotes: 'Certification and lot paperwork supplied where applicable; limited seasonal availability.',
+		id: 'entry-level-blend-70-30',
+		tierLabel: 'Balanced',
+		badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30',
+		name: 'Entry-Level Blend',
+		blend: '70% Arabica + 30% Robusta',
+		flavorNotes: 'Chocolatey, caramel sweetness, balanced.',
+		pricePerKgGbp: 11,
+		samplePackPricesGbp: { 100: 1.1, 250: 2.75, 500: 5.5, 1000: 11.0 },
+		image: '/images/grades/robusta-ab.jpg',
+		imageAlt: 'Close-up of ripe coffee cherries clustered together on the branch.'
+	},
+	{
+		id: 'premium-blend-100-arabica',
+		tierLabel: 'Premium',
+		badgeClass: 'bg-amber-900/50 text-amber-100 border-amber-300/40',
+		name: 'Premium Blend',
+		blend: '100% Arabica',
+		flavorNotes: 'Bright acidity, complex flavors, smooth.',
+		pricePerKgGbp: 16,
+		samplePackPricesGbp: { 100: 1.6, 250: 4.0, 500: 8.0, 1000: 16.0 },
 		image: '/images/grades/organic-estate.jpg',
 		imageAlt: 'Ripe coffee cherries on a Chikkamagalur estate tree canopy with natural shade.'
 	}
@@ -272,19 +272,24 @@ const galleryImages = [
 			</div>
 		</section>
 
-			<section id="catalogue" class="border-t border-white/10 bg-[#0a152a] py-20">
+			<section
+				id="catalogue"
+				class="border-t border-white/10 bg-[#0a152a] py-20"
+				data-pricing-email={pricingEmail}
+				data-whatsapp-number={whatsappNumber}
+			>
 				<div class="mx-auto max-w-6xl px-6 lg:px-8">
 					<div class="max-w-3xl">
 						<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Catalogue</p>
 						<h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Coffee, spices, and compliance — built for wholesale</h2>
 					<p class="mt-4 text-base text-slate-300">
-						Products are supplied with documentation and QC support suitable for UK import requirements. Pricing is not listed online and is shared based on grade, order size, and delivery terms.
+						Shop coffee grades with clear pack sizes and visible catalogue pricing. Bulk wholesale pricing and lot details are confirmed on request.
 					</p>
 						<div class="mt-8 rounded-2xl border border-amber-400/30 bg-white/[0.03] p-6 text-sm text-slate-200 shadow-xl shadow-black/30">
 							<p class="font-semibold text-white">Pricing & catalogue requests</p>
 							<p class="mt-2 leading-relaxed text-slate-300">
 								For pricing and catalogue requests, please contact us at <a class="text-amber-200 underline decoration-amber-400/40 underline-offset-4" href={`mailto:${pricingEmail}`}>{pricingEmail}</a>.
-								Pricing is tailored to your order size, grade, and delivery terms. Prices are not displayed on the website.
+								Prices shown below are per-kg prices with sample packs (100g, 250g, 500g, 1kg) listed clearly for quick ordering.
 							</p>
 							<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
 								<a
@@ -307,59 +312,410 @@ const galleryImages = [
 							Note: WhatsApp auto-replies are configured in the WhatsApp Business account settings.
 						</p>
 					</div>
+
 				</div>
 
-				<div class="mt-14">
+				<div class="mx-auto mt-16 max-w-6xl px-6 lg:px-8">
 					<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 						<div>
-							<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product category</p>
-							<h3 class="mt-2 text-2xl font-semibold text-white">Coffee Beans (Green & Roasted)</h3>
+							<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product catalogue</p>
+							<h3 class="mt-2 text-2xl font-semibold text-white">Roasted coffee tiers</h3>
 						</div>
-						<p class="text-xs text-slate-400">Origins and QC details are shared per lot.</p>
+						<p class="text-xs text-slate-400">Three options with visible per-kg and sample-pack pricing.</p>
 					</div>
-					<div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-						{coffeeCatalogue.map((coffee) => (
-							<article class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-xl shadow-black/30 transition hover:-translate-y-1 hover:border-amber-400/70">
-								{coffee.image && (
-									<>
-										<img
-											src={coffee.image}
-											alt={coffee.imageAlt ?? `${coffee.name} coffee background`}
-											loading="lazy"
-											class="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-80"
-										/>
-										<div class="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-slate-950/65 to-slate-900/60 transition duration-300 group-hover:from-slate-950/80 group-hover:via-slate-900/60 group-hover:to-slate-900/55"></div>
-									</>
-								)}
-								<div class="relative z-10">
-									<div class="flex flex-wrap items-start justify-between gap-2">
-										<h4 class="text-xl font-semibold text-white">{coffee.name}</h4>
-										<span class="rounded-full border border-amber-400/40 bg-white/5 px-3 py-1 text-xs font-semibold text-amber-100">
-											{coffee.format}
+
+					<div class="mt-8 flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 shadow-xl shadow-black/20 sm:flex-row sm:items-center sm:justify-between">
+						<div class="space-y-1">
+							<p class="text-sm font-semibold text-white">Sample packs & quick ordering</p>
+							<p class="text-xs text-slate-300">Choose a pack size on any product, then add to cart or request a sample.</p>
+						</div>
+						<div class="flex flex-wrap items-center gap-3">
+							<button
+								id="open-cart"
+								type="button"
+								class="inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/60 bg-white/5 px-5 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10"
+							>
+								Cart
+								<span id="cart-count" class="inline-flex min-w-7 items-center justify-center rounded-full bg-amber-500 px-2 py-0.5 text-xs font-bold text-slate-950">0</span>
+							</button>
+							<a
+								href={whatsappCatalogueUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/30 transition hover:bg-amber-400"
+							>
+								Order help on WhatsApp
+							</a>
+						</div>
+					</div>
+
+					<div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+						{coffeeCatalogue.map((product) => (
+							<article
+								id={product.id}
+								class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md shadow-black/10 transition hover:-translate-y-1 hover:border-amber-400/70 hover:shadow-xl"
+							>
+								<div class="relative">
+									<img
+										src={product.image}
+										alt={product.imageAlt ?? `${product.name} coffee product`}
+										loading="lazy"
+										class="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
+									/>
+									<div class="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent"></div>
+									<span
+										class={`absolute left-4 top-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${product.badgeClass}`}
+									>
+										{product.tierLabel}
+									</span>
+								</div>
+
+								<div class="flex flex-1 flex-col p-5">
+									<h4 class="text-base font-semibold text-slate-950">
+										{product.name}
+										<span class="text-slate-600"> · {product.blend}</span>
+									</h4>
+									<p class="mt-2 text-sm text-slate-700">{product.flavorNotes}</p>
+
+									<div class="mt-4 flex items-baseline justify-between gap-4">
+										<span class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Price / kg</span>
+										<span class="text-2xl font-bold text-slate-950">
+											{formatGbp(product.pricePerKgGbp)}
+											<span class="ml-1 text-sm font-semibold text-slate-600">/kg</span>
 										</span>
 									</div>
-									<dl class="mt-4 space-y-3 text-sm text-slate-200">
-										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Description</dt>
-											<dd class="mt-1 leading-relaxed">{coffee.description}</dd>
+
+									<fieldset class="mt-4">
+										<legend class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Sample packs</legend>
+										<div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+											{samplePackOptions.map((pack) => {
+												const optionId = `pack-${product.id}-${pack.grams}`;
+												const optionPriceGbp = product.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(product.pricePerKgGbp, pack.grams);
+
+												return (
+													<label
+														for={optionId}
+														class="group/pack relative flex cursor-pointer flex-col items-start justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left transition hover:border-amber-400/60 hover:bg-amber-50"
+													>
+														<input
+															id={optionId}
+															type="radio"
+															name={`pack-${product.id}`}
+															value={pack.grams}
+															data-pack-price={optionPriceGbp}
+															checked={pack.grams === 250}
+															class="peer sr-only"
+														/>
+														<span class="text-sm font-semibold text-slate-900 peer-checked:text-slate-950">{pack.label}</span>
+														<span class="text-xs text-slate-600 peer-checked:text-amber-800">{formatGbp(optionPriceGbp)}</span>
+														<span class="pointer-events-none absolute inset-0 rounded-xl ring-0 ring-amber-400/70 transition peer-checked:ring-2"></span>
+													</label>
+												);
+											})}
 										</div>
-										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Origin</dt>
-											<dd class="mt-1 leading-relaxed">{coffee.origin}</dd>
-										</div>
-										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Quality notes</dt>
-											<dd class="mt-1 leading-relaxed">{coffee.qualityNotes}</dd>
-										</div>
-									</dl>
+									</fieldset>
+
+									<div class="mt-5 flex gap-3">
+										<button
+											type="button"
+											data-action="add-to-cart"
+											data-product-id={product.id}
+											data-product-name={product.name}
+											data-product-grade={product.blend}
+											data-price-per-kg={product.pricePerKgGbp}
+											class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400"
+										>
+											Add to Cart
+										</button>
+										<a
+											href={buildSampleRequestMailtoHref(product, 250)}
+											data-action="request-sample"
+											data-product-id={product.id}
+											data-product-name={product.name}
+											data-product-grade={product.blend}
+											data-price-per-kg={product.pricePerKgGbp}
+											class="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:border-amber-400/70 hover:bg-amber-50"
+										>
+											Request Sample
+										</a>
+									</div>
+
+									<p class="mt-3 text-xs text-slate-500">
+										Sample-pack prices are shown per size. Bulk terms available on request.
+									</p>
 								</div>
 							</article>
 						))}
 					</div>
-					<p class="mt-6 text-xs text-slate-400">
-						Organic Estate Microlots image credit: Athira96, Chikkamagalur estate — licensed under CC&nbsp;BY-SA&nbsp;4.0 via Wikimedia Commons.
-					</p>
+
+					<p class="mt-6 text-xs text-slate-400">Organic estate image credit: Athira96, Chikkamagalur estate — licensed under CC&nbsp;BY-SA&nbsp;4.0 via Wikimedia Commons.</p>
 				</div>
+
+				<div id="cart-overlay" class="fixed inset-0 z-50 hidden">
+					<div class="absolute inset-0 bg-black/60" data-cart-close></div>
+					<div class="absolute inset-y-0 right-0 flex w-full max-w-md flex-col border-l border-white/10 bg-[#050a18] shadow-2xl shadow-black/60">
+						<div class="flex items-start justify-between gap-4 border-b border-white/10 p-5">
+							<div>
+								<p class="text-sm font-semibold text-white">Cart</p>
+								<p class="mt-1 text-xs text-slate-300">Use the cart to request samples or a bulk quote by email/WhatsApp.</p>
+							</div>
+							<button
+								type="button"
+								class="rounded-xl border border-white/15 bg-white/[0.03] px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/[0.06]"
+								data-cart-close
+							>
+								Close
+							</button>
+						</div>
+
+						<div class="flex-1 overflow-auto p-5">
+							<ul id="cart-items" class="space-y-3"></ul>
+						</div>
+
+						<div class="border-t border-white/10 p-5">
+							<div class="flex items-baseline justify-between">
+								<span class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Subtotal</span>
+								<span id="cart-subtotal" class="text-xl font-bold text-amber-200">{formatGbp(0)}</span>
+							</div>
+							<div class="mt-4 flex flex-col gap-3 sm:flex-row">
+								<button
+									type="button"
+									id="cart-email"
+									class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400"
+								>
+									Email Order Request
+								</button>
+								<button
+									type="button"
+									id="cart-whatsapp"
+									class="inline-flex flex-1 items-center justify-center rounded-xl border border-amber-400/60 bg-white/5 px-4 py-3 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10"
+								>
+									WhatsApp Order Request
+								</button>
+							</div>
+							<button
+								type="button"
+								id="cart-clear"
+								class="mt-3 w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.06]"
+							>
+								Clear cart
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<script type="module" is:inline>
+					const storageKey = 'abimanyu_cart_v1';
+
+					const catalogueRoot = document.getElementById('catalogue');
+					const pricingEmail = catalogueRoot?.dataset?.pricingEmail ?? '';
+					const whatsappNumber = catalogueRoot?.dataset?.whatsappNumber ?? '';
+
+					const cartCountEl = document.getElementById('cart-count');
+					const cartOverlay = document.getElementById('cart-overlay');
+					const cartItemsEl = document.getElementById('cart-items');
+					const cartSubtotalEl = document.getElementById('cart-subtotal');
+					const openCartButton = document.getElementById('open-cart');
+					const clearCartButton = document.getElementById('cart-clear');
+					const cartEmailButton = document.getElementById('cart-email');
+					const cartWhatsappButton = document.getElementById('cart-whatsapp');
+
+					const formatGbp = (value) =>
+						new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 2 }).format(value);
+
+					const readCart = () => {
+						try {
+							const raw = localStorage.getItem(storageKey);
+							const parsed = raw ? JSON.parse(raw) : [];
+							return Array.isArray(parsed) ? parsed : [];
+						} catch {
+							return [];
+						}
+					};
+
+					const writeCart = (cart) => {
+						try {
+							localStorage.setItem(storageKey, JSON.stringify(cart));
+						} catch {
+							// ignore storage failures
+						}
+					};
+
+					const findSelectedPack = (productId, pricePerKgGbp) => {
+						const input = document.querySelector(`input[name="pack-${productId}"]:checked`);
+						const grams = input ? Number(input.value) : 250;
+						const safeGrams = Number.isFinite(grams) ? grams : 250;
+
+						const inputEl = input instanceof HTMLInputElement ? input : null;
+						const explicitPrice = inputEl ? Number(inputEl.dataset.packPrice ?? '') : NaN;
+						const priceGbp = Number.isFinite(explicitPrice)
+							? explicitPrice
+							: Number(((pricePerKgGbp * safeGrams) / 1000).toFixed(2));
+
+						return { grams: safeGrams, priceGbp };
+					};
+
+					const cartToSummaryLines = (cart) => {
+						const lines = ['Hi Abimanyu team,', '', 'Please confirm availability and pricing for the following items:', ''];
+						cart.forEach((item) => {
+							lines.push(`- ${item.name} (${item.grade}) — ${item.grams}g — ${formatGbp(item.priceGbp)}`);
+						});
+						lines.push('', 'Delivery address:', '- Name:', '- Company:', '- Address:', '- Postcode:', '- Phone:', '', 'Thank you.');
+						return lines;
+					};
+
+					const openCart = () => {
+						if (!cartOverlay) return;
+						cartOverlay.classList.remove('hidden');
+						document.body.style.overflow = 'hidden';
+					};
+
+					const closeCart = () => {
+						if (!cartOverlay) return;
+						cartOverlay.classList.add('hidden');
+						document.body.style.overflow = '';
+					};
+
+					const renderCart = () => {
+						const cart = readCart();
+						const itemCount = cart.length;
+						if (cartCountEl) cartCountEl.textContent = String(itemCount);
+
+						if (!cartItemsEl || !cartSubtotalEl) return;
+						cartItemsEl.innerHTML = '';
+
+						let subtotal = 0;
+						cart.forEach((item, index) => {
+							subtotal += item.priceGbp;
+							const li = document.createElement('li');
+							li.className = 'rounded-xl border border-white/10 bg-white/[0.02] p-4';
+							li.innerHTML = `
+								<div class="flex items-start justify-between gap-4">
+									<div>
+										<p class="text-sm font-semibold text-white">${item.name}</p>
+										<p class="mt-1 text-xs text-slate-300">${item.grade}</p>
+										<p class="mt-2 text-xs text-slate-300">${item.grams}g · <span class="font-semibold text-amber-100">${formatGbp(item.priceGbp)}</span></p>
+									</div>
+									<button type="button" data-remove-index="${index}" class="rounded-lg border border-white/15 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-white hover:bg-white/[0.06]">
+										Remove
+									</button>
+								</div>
+							`;
+							cartItemsEl.appendChild(li);
+						});
+
+						cartSubtotalEl.textContent = formatGbp(subtotal);
+					};
+
+					const addToCart = ({ id, name, grade, grams, priceGbp }) => {
+						const cart = readCart();
+						cart.push({ id, name, grade, grams, priceGbp });
+						writeCart(cart);
+						renderCart();
+						openCart();
+					};
+
+					openCartButton?.addEventListener('click', () => {
+						renderCart();
+						openCart();
+					});
+
+					cartOverlay?.addEventListener('click', (event) => {
+						const target = event.target;
+						if (!(target instanceof HTMLElement)) return;
+						if (target.matches('[data-cart-close]')) closeCart();
+					});
+
+					clearCartButton?.addEventListener('click', () => {
+						writeCart([]);
+						renderCart();
+					});
+
+					cartItemsEl?.addEventListener('click', (event) => {
+						const target = event.target;
+						if (!(target instanceof HTMLElement)) return;
+						const removeIndexRaw = target.getAttribute('data-remove-index');
+						if (!removeIndexRaw) return;
+						const removeIndex = Number(removeIndexRaw);
+						if (!Number.isInteger(removeIndex)) return;
+
+						const cart = readCart();
+						cart.splice(removeIndex, 1);
+						writeCart(cart);
+						renderCart();
+					});
+
+					cartEmailButton?.addEventListener('click', () => {
+						const cart = readCart();
+						if (!pricingEmail || cart.length === 0) return;
+						const subject = 'Order request (samples / bulk quote)';
+						const body = cartToSummaryLines(cart).join('\n');
+						window.location.href = `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+					});
+
+					cartWhatsappButton?.addEventListener('click', () => {
+						const cart = readCart();
+						if (!whatsappNumber || cart.length === 0) return;
+						const text = cartToSummaryLines(cart).join('\n');
+						const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+						window.open(url, '_blank', 'noopener,noreferrer');
+					});
+
+					document.addEventListener('click', (event) => {
+						const target = event.target;
+						if (!(target instanceof HTMLElement)) return;
+
+						const addButton = target.closest('[data-action="add-to-cart"]');
+						if (addButton instanceof HTMLElement) {
+							const productId = addButton.dataset.productId ?? '';
+							const productName = addButton.dataset.productName ?? '';
+							const productGrade = addButton.dataset.productGrade ?? '';
+							const pricePerKgGbp = Number(addButton.dataset.pricePerKg ?? '0');
+							if (!productId || !Number.isFinite(pricePerKgGbp) || pricePerKgGbp <= 0) return;
+
+							const { grams, priceGbp } = findSelectedPack(productId, pricePerKgGbp);
+							addToCart({ id: productId, name: productName, grade: productGrade, grams, priceGbp });
+							return;
+						}
+
+						const sampleLink = target.closest('[data-action="request-sample"]');
+						if (sampleLink instanceof HTMLAnchorElement) {
+							const productId = sampleLink.dataset.productId ?? '';
+							const productName = sampleLink.dataset.productName ?? '';
+							const productGrade = sampleLink.dataset.productGrade ?? '';
+							const pricePerKgGbp = Number(sampleLink.dataset.pricePerKg ?? '0');
+							if (!productId || !pricingEmail || !Number.isFinite(pricePerKgGbp) || pricePerKgGbp <= 0) return;
+
+							event.preventDefault();
+							const { grams, priceGbp } = findSelectedPack(productId, pricePerKgGbp);
+
+							const subject = `Sample request: ${productName} — ${productGrade} (${grams}g)`;
+							const bodyLines = [
+								'Hi Abimanyu team,',
+								'',
+								'Please send a sample for:',
+								`- Product: ${productName} (${productGrade})`,
+								`- Pack size: ${grams}g`,
+								`- Catalogue price: ${formatGbp(priceGbp)}`,
+								'',
+								'Delivery address:',
+								'- Name:',
+								'- Company:',
+								'- Address:',
+								'- Postcode:',
+								'- Phone:',
+								'',
+								'Thank you.'
+							];
+
+							window.location.href = `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+								bodyLines.join('\n')
+							)}`;
+						}
+					});
+
+					renderCart();
+				</script>
 
 				<div class="mt-16">
 					<div>
