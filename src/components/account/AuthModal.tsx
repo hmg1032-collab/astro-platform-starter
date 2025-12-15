@@ -24,9 +24,35 @@ const getRequestedMode = (): Mode | null => {
 };
 
 const safeMessage = (err: unknown) => {
+	if (err && typeof err === 'object') {
+		const maybeMessage = (err as { message?: unknown }).message;
+		if (typeof maybeMessage === 'string' && maybeMessage.trim()) return maybeMessage;
+
+		const maybeMsg = (err as { msg?: unknown }).msg;
+		if (typeof maybeMsg === 'string' && maybeMsg.trim()) return maybeMsg;
+	}
 	if (err instanceof Error && err.message) return err.message;
 	if (typeof err === 'string' && err.trim()) return err;
 	return 'Something went wrong. Please try again.';
+};
+
+const toCustomerFacingError = (raw: string) => {
+	const message = raw.trim();
+	const lower = message.toLowerCase();
+
+	if (lower.includes('email not confirmed') || lower.includes('confirm your email')) {
+		return 'Email not confirmed yet. Please use the confirmation link in your inbox, then sign in again.';
+	}
+
+	if (lower.includes('failed to fetch') || lower.includes('networkerror')) {
+		return 'Login is unavailable right now. Please try again in a moment, or contact support if the issue persists.';
+	}
+
+	if (lower.includes('not found') && lower.includes('identity')) {
+		return 'Login is not enabled on this site yet. Please contact support.';
+	}
+
+	return message;
 };
 
 export default function AuthModal() {
@@ -35,6 +61,7 @@ export default function AuthModal() {
 	const [email, setEmail] = React.useState('');
 	const [password, setPassword] = React.useState('');
 	const [busy, setBusy] = React.useState(false);
+	const [busyMode, setBusyMode] = React.useState<Mode | null>(null);
 	const [error, setError] = React.useState<string | null>(null);
 	const [success, setSuccess] = React.useState<string | null>(null);
 
@@ -43,6 +70,7 @@ export default function AuthModal() {
 	const close = React.useCallback(() => {
 		setOpen(false);
 		setBusy(false);
+		setBusyMode(null);
 		setError(null);
 		setSuccess(null);
 		setPassword('');
@@ -98,6 +126,7 @@ export default function AuthModal() {
 
 	const doLogin = async () => {
 		setBusy(true);
+		setBusyMode('login');
 		setError(null);
 		setSuccess(null);
 		try {
@@ -105,14 +134,16 @@ export default function AuthModal() {
 			setSuccess('Signed in successfully. Redirecting…');
 			window.setTimeout(redirectAfterLogin, 600);
 		} catch (err) {
-			setError(safeMessage(err));
+			setError(toCustomerFacingError(safeMessage(err)));
 		} finally {
 			setBusy(false);
+			setBusyMode(null);
 		}
 	};
 
 	const doSignup = async () => {
 		setBusy(true);
+		setBusyMode('signup');
 		setError(null);
 		setSuccess(null);
 		try {
@@ -126,9 +157,10 @@ export default function AuthModal() {
 			setMode('login');
 			setPassword('');
 		} catch (err) {
-			setError(safeMessage(err));
+			setError(toCustomerFacingError(safeMessage(err)));
 		} finally {
 			setBusy(false);
+			setBusyMode(null);
 		}
 	};
 
@@ -181,6 +213,16 @@ export default function AuthModal() {
 							autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
 							value={password}
 							onChange={(event) => setPassword(event.target.value)}
+							onKeyDown={(event) => {
+								if (event.key !== 'Enter') return;
+								if (busy) return;
+								if (!email.trim() || !password) return;
+								if (mode === 'signup') {
+									void doSignup();
+								} else {
+									void doLogin();
+								}
+							}}
 							className="h-12 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/30"
 							placeholder="Password"
 						/>
@@ -196,25 +238,25 @@ export default function AuthModal() {
 					<div className="grid gap-3 sm:grid-cols-2">
 						<button
 							type="button"
-							disabled={busy}
+							disabled={busy || !email.trim() || !password}
 							onClick={() => {
 								setMode('login');
 								void doLogin();
 							}}
 							className="inline-flex h-12 w-full items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
 						>
-							{busy && mode === 'login' ? 'Signing in…' : 'Sign in'}
+							{busy && busyMode === 'login' ? 'Signing in…' : 'Sign in'}
 						</button>
 						<button
 							type="button"
-							disabled={busy}
+							disabled={busy || !email.trim() || !password}
 							onClick={() => {
 								setMode('signup');
 								void doSignup();
 							}}
 							className="inline-flex h-12 w-full items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50 disabled:cursor-not-allowed disabled:opacity-70"
 						>
-							{busy && mode === 'signup' ? 'Creating…' : 'Create account'}
+							{busy && busyMode === 'signup' ? 'Creating…' : 'Create account'}
 						</button>
 					</div>
 
@@ -238,4 +280,3 @@ export default function AuthModal() {
 		</div>
 	);
 }
-

@@ -1,5 +1,4 @@
-/account/login  /login    301
-/account        /delivery 301
-/track-your-delivery /delivery 301
+/delivery        /account 301
+/track-your-delivery /account 301
 /register /signup 301
 /sign-up /signup 301
