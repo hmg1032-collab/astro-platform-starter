@@ -52,19 +52,15 @@ const {
 					<span class="text-sm font-semibold tracking-wide">Abimanyu 3 Ltd</span>
 				</a>
 
-				<div class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium text-slate-200">
+				<div class="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm font-medium text-slate-200">
 					<a href="/" class="transition hover:text-amber-200">Home</a>
-					<a href="/#catalogue" class="transition hover:text-amber-200">Catalogue</a>
-					<a href="/#delivery-payment" class="transition hover:text-amber-200">Delivery &amp; Payment</a>
-					<a href="/#contact" class="transition hover:text-amber-200">Contact</a>
-					<a href="/account" class="transition hover:text-amber-200">Dashboard</a>
 					<a href="/login" data-auth-open="login" class="transition hover:text-amber-200">Login</a>
 					<a
 						href="/signup"
 						data-auth-open="signup"
 						class="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-slate-200 transition hover:border-amber-400/60 hover:bg-white/5 hover:text-amber-100"
 					>
-						Create account
+						Create Account
 					</a>
 					<a
 						href="/delivery"
@@ -75,6 +71,128 @@ const {
 				</div>
 			</nav>
 		</header>
+
+		<button
+			type="button"
+			class="fixed bottom-5 right-5 z-[55] inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/60 bg-slate-950/80 px-4 py-3 text-sm font-semibold text-amber-100 shadow-lg backdrop-blur transition hover:border-amber-300 hover:bg-slate-950 hover:text-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-400 sm:bottom-auto sm:right-0 sm:top-1/2 sm:-translate-y-1/2 sm:rounded-r-none sm:rounded-l-2xl sm:px-4 sm:py-4"
+			data-more-toggle
+			aria-controls="account-tools-panel"
+			aria-expanded="false"
+			title="More"
+		>
+			<span class="sr-only">Account Tools</span>
+			<svg
+				aria-hidden="true"
+				viewBox="0 0 20 20"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.6"
+				stroke-linecap="round"
+				class="h-5 w-5"
+			>
+				<path d="M4 10h12M4 5h12M4 15h12" />
+			</svg>
+			<span class="sm:hidden">More</span>
+			<span class="hidden sm:inline" style="writing-mode: vertical-rl;">More</span>
+		</button>
+
+		<div
+			id="account-tools-overlay"
+			class="fixed inset-0 z-[60] hidden"
+			data-more-overlay
+			aria-hidden="true"
+		>
+			<div class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-200" data-more-backdrop></div>
+			<aside
+				id="account-tools-panel"
+				class="absolute right-0 top-0 flex h-full w-[22rem] max-w-[92vw] translate-x-full flex-col border-l border-white/10 bg-slate-950 text-slate-100 shadow-2xl transition-transform duration-200"
+				role="dialog"
+				aria-modal="true"
+				aria-label="Account Tools"
+				data-more-panel
+				tabindex="-1"
+			>
+				<div class="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
+					<div class="flex items-center gap-3">
+						<div class="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/5">
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 20 20"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.6"
+								stroke-linecap="round"
+								class="h-5 w-5 text-amber-200"
+							>
+								<path d="M4 6h12M4 10h12M4 14h12" />
+							</svg>
+						</div>
+						<div>
+							<p class="text-sm font-semibold">Account Tools</p>
+							<p class="text-xs text-slate-400">Quick links &amp; utilities</p>
+						</div>
+					</div>
+					<button
+						type="button"
+						class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition hover:border-amber-400/60 hover:bg-white/10 hover:text-amber-100"
+						data-more-close
+					>
+						<span class="sr-only">Close</span>
+						<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+							<path stroke-linecap="round" d="M6 6l8 8M14 6l-8 8" />
+						</svg>
+					</button>
+				</div>
+
+				<div class="flex-1 overflow-y-auto px-3 py-3">
+					<div class="rounded-2xl border border-white/10 bg-white/5 p-2">
+						<a
+							href="/#catalogue"
+							class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-100 transition hover:bg-white/10 hover:text-amber-100"
+							data-more-link
+						>
+							<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5 text-amber-200">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 3.5h8A2.5 2.5 0 0 1 16.5 6v10a1 1 0 0 1-1.5.87L10 14l-5 2.87A1 1 0 0 1 3.5 16V6A2.5 2.5 0 0 1 6 3.5Z" />
+							</svg>
+							<span>Catalogue</span>
+						</a>
+						<a
+							href="/#delivery-payment"
+							class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-100 transition hover:bg-white/10 hover:text-amber-100"
+							data-more-link
+						>
+							<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5 text-amber-200">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5h9.5v7H3.5v-7ZM13 9h2.2a1.5 1.5 0 0 1 1.34.83l.86 1.72v1.95H13V9Z" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 15.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM14.5 15.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+							</svg>
+							<span>Delivery &amp; Payment</span>
+						</a>
+						<a
+							href="/#contact"
+							class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-100 transition hover:bg-white/10 hover:text-amber-100"
+							data-more-link
+						>
+							<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5 text-amber-200">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5l6 4 6-4v7.25A1.25 1.25 0 0 1 14.75 15H5.25A1.25 1.25 0 0 1 4 13.75V6.5Z" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5A1.5 1.5 0 0 1 5.5 5h9A1.5 1.5 0 0 1 16 6.5l-6 4-6-4Z" />
+							</svg>
+							<span>Contact</span>
+						</a>
+						<a
+							href="/account"
+							class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-100 transition hover:bg-white/10 hover:text-amber-100"
+							data-more-link
+						>
+							<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5 text-amber-200">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M10 11.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M4.25 16.2a6.75 6.75 0 0 1 11.5 0" />
+							</svg>
+							<span>Dashboard</span>
+						</a>
+					</div>
+				</div>
+			</aside>
+		</div>
 
 		<slot />
 
@@ -90,6 +208,77 @@ const {
 
 				event.preventDefault();
 				window.__abimanyuAuthModalOpen(mode);
+			});
+
+			const overlay = document.querySelector('[data-more-overlay]');
+			const panel = document.querySelector('[data-more-panel]');
+			const backdrop = document.querySelector('[data-more-backdrop]');
+			const toggles = Array.from(document.querySelectorAll('[data-more-toggle]'));
+			const closeButton = document.querySelector('[data-more-close]');
+
+			let closeTimer = 0;
+			let lastActiveToggle = null;
+
+			const openMoreMenu = () => {
+				if (!(overlay instanceof HTMLElement) || !(panel instanceof HTMLElement) || !(backdrop instanceof HTMLElement)) return;
+				if (!toggles.length) return;
+
+				window.clearTimeout(closeTimer);
+				overlay.classList.remove('hidden');
+				document.body.classList.add('overflow-hidden');
+				for (const toggle of toggles) toggle.setAttribute('aria-expanded', 'true');
+				overlay.setAttribute('aria-hidden', 'false');
+
+				window.requestAnimationFrame(() => {
+					backdrop.classList.remove('opacity-0');
+					panel.classList.remove('translate-x-full');
+					panel.focus();
+				});
+			};
+
+			const closeMoreMenu = () => {
+				if (!(overlay instanceof HTMLElement) || !(panel instanceof HTMLElement) || !(backdrop instanceof HTMLElement)) return;
+				if (!toggles.length) return;
+
+				for (const toggle of toggles) toggle.setAttribute('aria-expanded', 'false');
+				overlay.setAttribute('aria-hidden', 'true');
+				backdrop.classList.add('opacity-0');
+				panel.classList.add('translate-x-full');
+				document.body.classList.remove('overflow-hidden');
+
+				window.clearTimeout(closeTimer);
+				closeTimer = window.setTimeout(() => {
+					overlay.classList.add('hidden');
+					if (lastActiveToggle instanceof HTMLElement) lastActiveToggle.focus();
+				}, 220);
+			};
+
+			for (const toggle of toggles) {
+				toggle.addEventListener('click', () => {
+					if (!(overlay instanceof HTMLElement)) return;
+					lastActiveToggle = toggle;
+					if (overlay.classList.contains('hidden')) {
+						openMoreMenu();
+					} else {
+						closeMoreMenu();
+					}
+				});
+			}
+
+			closeButton?.addEventListener('click', closeMoreMenu);
+			backdrop?.addEventListener('click', closeMoreMenu);
+
+			document.addEventListener('keydown', (event) => {
+				if (event.key !== 'Escape') return;
+				if (!(overlay instanceof HTMLElement)) return;
+				if (overlay.classList.contains('hidden')) return;
+				closeMoreMenu();
+			});
+
+			document.addEventListener('click', (event) => {
+				const link = event.target instanceof Element ? event.target.closest('[data-more-link]') : null;
+				if (!link) return;
+				closeMoreMenu();
 			});
 		</script>
 	</body>
