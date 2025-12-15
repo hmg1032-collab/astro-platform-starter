@@ -5,3 +5,13 @@
 [functions]
   directory = "netlify/functions"
 
+[[redirects]]
+  from = "https://www.abimanyu3wholesale.com/*"
+  to = "https://abimanyu3wholesale.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/delivery"
+  to = "/account"
+  status = 301
