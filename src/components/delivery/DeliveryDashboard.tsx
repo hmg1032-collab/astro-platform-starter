@@ -130,6 +130,13 @@ export default function DeliveryDashboard() {
 	const [tab, setTab] = React.useState<'orders' | 'contact'>('orders');
 	const [needsAuth, setNeedsAuth] = React.useState(false);
 	const [identityAvailability, setIdentityAvailability] = React.useState<IdentityAvailability>('unknown');
+	const returnTo = React.useMemo(() => encodeURIComponent(`${window.location.pathname}${window.location.search}`), []);
+	const loginHref = React.useMemo(() => `/login?returnTo=${returnTo}`, [returnTo]);
+	const signupHref = React.useMemo(() => `/signup?returnTo=${returnTo}`, [returnTo]);
+	const pendingConfirmation = React.useMemo(() => {
+		const pending = new URLSearchParams(window.location.search).get('pending')?.toLowerCase();
+		return pending === 'confirmation' || pending === 'confirm';
+	}, []);
 
 	React.useEffect(() => {
 		const onInit = async (user: netlifyIdentity.User | null) => {
@@ -137,11 +144,6 @@ export default function DeliveryDashboard() {
 				setNeedsAuth(true);
 				setLoading(false);
 				setError(null);
-				try {
-					window.__abimanyuAuthModalOpen?.('login');
-				} catch {
-					// Ignore.
-				}
 				return;
 			}
 
@@ -223,7 +225,7 @@ export default function DeliveryDashboard() {
 							setMe(null);
 							setOrders([]);
 							setNeedsAuth(true);
-							window.__abimanyuAuthModalOpen?.('login');
+							window.location.assign(loginHref);
 						}}
 						className="inline-flex h-11 items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-5 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50"
 					>
@@ -234,27 +236,31 @@ export default function DeliveryDashboard() {
 
 			{needsAuth ? (
 				<section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 text-sm text-slate-300 shadow-2xl shadow-black/40">
-					<p className="font-semibold text-white">Sign in required</p>
+					<p className="font-semibold text-white">{pendingConfirmation ? 'Confirm your email to finish setup' : 'Sign in required'}</p>
 					<p className="mt-2">
-						For privacy and security, order and delivery details are only shown after sign-in.
+						{pendingConfirmation
+							? 'A confirmation email was sent to complete registration. After confirming, sign in to access order history, delivery status, ETA, and invoices.'
+							: 'For privacy and security, order and delivery details are only shown after sign-in.'}
 					</p>
 					<div className="mt-5 flex flex-col gap-3 sm:flex-row">
-						<button
-							type="button"
-							onClick={() => window.__abimanyuAuthModalOpen?.('login')}
-							disabled={identityAvailability === 'unavailable'}
-							className="inline-flex h-11 items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400"
+						<a
+							href={loginHref}
+							aria-disabled={identityAvailability === 'unavailable'}
+							className={`inline-flex h-11 items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400 ${
+								identityAvailability === 'unavailable' ? 'pointer-events-none opacity-60' : ''
+							}`}
 						>
 							Sign in
-						</button>
-						<button
-							type="button"
-							onClick={() => window.__abimanyuAuthModalOpen?.('signup')}
-							disabled={identityAvailability === 'unavailable'}
-							className="inline-flex h-11 items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50"
+						</a>
+						<a
+							href={signupHref}
+							aria-disabled={identityAvailability === 'unavailable'}
+							className={`inline-flex h-11 items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 text-sm font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50 ${
+								identityAvailability === 'unavailable' ? 'pointer-events-none opacity-60' : ''
+							}`}
 						>
 							Create account
-						</button>
+						</a>
 					</div>
 				</section>
 			) : null}
