@@ -1,12 +1,18 @@
 ---
 import "../styles/global.css";
+import AuthModal from "../components/account/AuthModal";
 
 interface Props {
 	title: string;
 	description?: string;
+	noIndex?: boolean;
 }
 
-const { title, description = 'Abimanyu 3 Ltd connects UK buyers with speciality Indian coffee, spices, and teas through reliable import-export partnerships.' } =
+const {
+	title,
+	description = 'Abimanyu 3 Ltd connects UK buyers with speciality Indian coffee, spices, and teas through reliable import-export partnerships.',
+	noIndex = false
+} =
 	Astro.props;
 ---
 
@@ -16,6 +22,7 @@ const { title, description = 'Abimanyu 3 Ltd connects UK buyers with speciality 
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
+		{noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
@@ -50,16 +57,40 @@ const { title, description = 'Abimanyu 3 Ltd connects UK buyers with speciality 
 					<a href="/#catalogue" class="transition hover:text-amber-200">Catalogue</a>
 					<a href="/#delivery-payment" class="transition hover:text-amber-200">Delivery &amp; Payment</a>
 					<a href="/#contact" class="transition hover:text-amber-200">Contact</a>
+					<a href="/account" class="transition hover:text-amber-200">Dashboard</a>
+					<a href="/login" data-auth-open="login" class="transition hover:text-amber-200">Login</a>
 					<a
-						href="/track-your-delivery"
+						href="/signup"
+						data-auth-open="signup"
+						class="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-slate-200 transition hover:border-amber-400/60 hover:bg-white/5 hover:text-amber-100"
+					>
+						Create account
+					</a>
+					<a
+						href="/delivery"
 						class="inline-flex items-center rounded-full border border-amber-400/60 px-4 py-2 text-amber-100 transition hover:border-amber-300 hover:bg-white/5 hover:text-amber-50"
 					>
-						Track Your Delivery
+						Track Delivery
 					</a>
 				</div>
 			</nav>
 		</header>
 
 		<slot />
+
+		<AuthModal client:load="react" />
+
+		<script>
+			document.addEventListener('click', (event) => {
+				const target = event.target instanceof Element ? event.target.closest('[data-auth-open]') : null;
+				if (!target) return;
+
+				const mode = target.getAttribute('data-auth-open') === 'signup' ? 'signup' : 'login';
+				if (typeof window.__abimanyuAuthModalOpen !== 'function') return;
+
+				event.preventDefault();
+				window.__abimanyuAuthModalOpen(mode);
+			});
+		</script>
 	</body>
 </html>
