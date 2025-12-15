@@ -20,6 +20,7 @@
         "blobshape": "^1.0.0",
         "marked": "^16.4.1",
         "marked-shiki": "^1.2.1",
+        "netlify-identity-widget": "^1.9.2",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "tailwindcss": "^4.1.16",
@@ -27,6 +28,7 @@
     },
     "devDependencies": {
         "@types/blobshape": "^1.0.3",
+        "@types/netlify-identity-widget": "^1.9.7",
         "@types/node": "^20.12.7",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.2"
