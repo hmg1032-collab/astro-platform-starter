@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Premium coffee blend in an elegant matte black stand-up packet with refined Abimanyu 3 branding, with a subtle window implying coffee powder inside">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f2f5f9"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#0b1220" flood-opacity="0.20"/>
+    </filter>
+    <filter id="matte" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.78" numOctaves="2" seed="12" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="
+        0.9 0 0 0 0
+        0 0.9 0 0 0
+        0 0 0.9 0 0
+        0 0 0 0.16 0" result="grain"/>
+      <feBlend in="SourceGraphic" in2="grain" mode="multiply"/>
+    </filter>
+    <linearGradient id="packetBody" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#07080b"/>
+      <stop offset="0.55" stop-color="#131824"/>
+      <stop offset="1" stop-color="#050607"/>
+    </linearGradient>
+    <linearGradient id="packetEdge" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#243041" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#0b0f17" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="coffee" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#6b3a1e"/>
+      <stop offset="1" stop-color="#1f0f08"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7d36a"/>
+      <stop offset="0.5" stop-color="#b9851d"/>
+      <stop offset="1" stop-color="#f7d36a"/>
+    </linearGradient>
+    <clipPath id="logoClip">
+      <rect x="522" y="258" width="156" height="70" rx="14"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <rect x="0" y="578" width="1200" height="222" fill="#ffffff"/>
+  <rect x="0" y="578" width="1200" height="2" fill="#e6edf6"/>
+
+  <g filter="url(#shadow)" transform="translate(600 420) rotate(-2) translate(-600 -420)">
+    <ellipse cx="600" cy="678" rx="220" ry="34" fill="#0b1220" opacity="0.10"/>
+
+    <path
+      d="M430 170
+         C435 150 452 140 476 140
+         H724
+         C748 140 765 150 770 170
+         L808 640
+         C812 682 792 706 752 714
+         H448
+         C408 706 388 682 392 640
+         L430 170Z"
+      fill="url(#packetBody)"
+      filter="url(#matte)"
+    />
+
+    <path d="M458 170 L492 642 C494 666 482 690 458 704 C430 698 416 676 418 650 L446 200 C448 186 452 176 458 170Z" fill="url(#packetEdge)" opacity="0.52"/>
+    <path d="M742 170 L708 642 C706 666 718 690 742 704 C770 698 784 676 782 650 L754 200 C752 186 748 176 742 170Z" fill="url(#packetEdge)" opacity="0.42"/>
+
+    <rect x="458" y="158" width="284" height="16" rx="8" fill="#0b0f17" opacity="0.95"/>
+    <rect x="470" y="182" width="260" height="8" rx="4" fill="#ffffff" opacity="0.05"/>
+    <path d="M470 186 H730" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2"/>
+
+    <rect x="470" y="220" width="260" height="420" rx="34" fill="#0b1220" opacity="0.30"/>
+
+    <!-- refined branding: minimal label + gold foil line -->
+    <rect x="492" y="242" width="216" height="152" rx="28" fill="#050607" opacity="0.78"/>
+    <rect x="492" y="402" width="216" height="10" rx="5" fill="url(#gold)" opacity="0.95"/>
+    <rect x="514" y="255" width="172" height="78" rx="18" fill="#ffffff" opacity="0.92"/>
+    <g clip-path="url(#logoClip)" opacity="0.98">
+      <image href="/images/abimanyu-logo.jpg" x="522" y="258" width="156" height="70" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+    <text x="600" y="360" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="800" fill="#e2e8f0" letter-spacing="5">PREMIUM BLEND</text>
+    <text x="600" y="382" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" font-weight="700" fill="#94a3b8" letter-spacing="4">REFINED · RETAIL READY</text>
+
+    <!-- subtle, elegant window to imply coffee inside -->
+    <g opacity="0.98">
+      <path d="M548 486 H652 C666 486 678 498 678 512 V664 C678 678 666 690 652 690 H548 C534 690 522 678 522 664 V512 C522 498 534 486 548 486Z" fill="#ffffff" opacity="0.07"/>
+      <path d="M548 492 H652 C662 492 670 500 670 510 V662 C670 672 662 680 652 680 H548 C538 680 530 672 530 662 V510 C530 500 538 492 548 492Z" fill="url(#coffee)" opacity="0.86"/>
+      <path d="M530 546 C560 534 582 536 602 546 C622 556 646 558 670 548 V574 C646 584 622 582 602 572 C582 562 560 560 530 574 V546Z" fill="#000000" opacity="0.10"/>
+      <path d="M536 506 L664 664" stroke="#ffffff" stroke-opacity="0.09" stroke-width="9"/>
+      <path d="M536 506 L664 664" stroke="#ffffff" stroke-opacity="0.05" stroke-width="20"/>
+      <path d="M532 680 H668" stroke="#000000" stroke-opacity="0.10" stroke-width="2"/>
+    </g>
+
+    <path d="M520 210 C550 190 596 184 642 190 C674 194 696 204 696 204 V654 C696 654 674 670 644 676 C598 686 550 672 520 654Z" fill="#ffffff" opacity="0.04"/>
+  </g>
+</svg>
