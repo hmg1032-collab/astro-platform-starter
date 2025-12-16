@@ -20,11 +20,11 @@ const formatGbp = (value) =>
 
 const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
-const packPriceFromKg = (pricePerKgGbp, grams) => Number(((pricePerKgGbp * grams) / 1000).toFixed(2));
+	const packPriceFromKg = (pricePerKgGbp, grams) => Number(((pricePerKgGbp * grams) / 1000).toFixed(2));
 
-const buildSampleRequestMailtoHref = (product, grams) => {
-	const packPriceGbp = product.samplePackPricesGbp?.[grams] ?? packPriceFromKg(product.pricePerKgGbp, grams);
-	const subject = `Sample request: ${product.name} — ${product.blend} (${grams}g)`;
+	const buildSampleRequestMailtoHref = (product, grams) => {
+		const packPriceGbp = product.samplePackPricesGbp?.[grams] ?? packPriceFromKg(product.pricePerKgGbp, grams);
+		const subject = `Sample request: ${product.name} — ${product.blend} (${grams}g)`;
 	const bodyLines = [
 		'Hi Abimanyu team,',
 		'',
@@ -43,25 +43,33 @@ const buildSampleRequestMailtoHref = (product, grams) => {
 		'Thank you.'
 	];
 
-	return `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-};
+		return `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+	};
 
-const buildBuyNowWhatsappHref = (product) => {
-	const messageLines = [
-		'Hi Abimanyu team,',
-		`I would like to buy: ${product.name} (${product.blend})`,
-		`Price shown: ${formatGbp(product.pricePerKgGbp)}/kg`,
-		'Please confirm availability, MOQ, and delivery lead time in the UK.',
-		'',
-		'Company name:',
-		'Delivery postcode:',
+	const buildBuyNowWhatsappHref = (product) => {
+		const packs = product.samplePackOptions ?? samplePackOptions;
+		const packPriceSummary = packs
+			.map((pack) => {
+				const packPriceGbp = product.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(product.pricePerKgGbp, pack.grams);
+				return `${pack.label} ${formatGbp(packPriceGbp)}`;
+			})
+			.join(', ');
+
+		const messageLines = [
+			'Hi Abimanyu team,',
+			`I would like to buy: ${product.name} (${product.blend})`,
+			`Prices shown: ${packPriceSummary}`,
+			'Please confirm availability, MOQ, and delivery lead time in the UK.',
+			'',
+			'Company name:',
+			'Delivery postcode:',
 		'Target volume (kg):'
 	];
 
 	return buildWhatsappHref(messageLines.join('\n'));
 };
 
-const coffeeCatalogue = [
+	const coffeeCatalogue = [
 	{
 		id: 'arabica-plantation-aa',
 		tierLabel: 'Seasonal Offer',
@@ -100,9 +108,46 @@ const coffeeCatalogue = [
 		image: '/images/grades/sampler.jpg',
 		imageAlt: 'Sealed coffee sampler packs prepared for dispatch.'
 	}
-];
+	];
 
-const currentOffers = coffeeCatalogue;
+	const currentOffers = [
+		{
+			id: 'entry-level-blend',
+			tierLabel: 'Entry-Level Blend',
+			badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30',
+			name: 'Entry-Level Blend',
+			blend: 'Matte black packet · Earthy notes',
+			flavorNotes: 'Bold body, toasted nuts, cocoa finish. Built for everyday wholesale orders.',
+			pricePerKgGbp: 9,
+			samplePackPricesGbp: { 100: 0.9, 250: 2.25, 500: 4.5, 1000: 9.0 },
+			image: '/images/offers/entry-level-bottle.svg',
+			imageAlt: 'Entry-level coffee blend in a premium matte black stand-up packet with Abimanyu 3 branding and a subtle window showing coffee inside.'
+		},
+		{
+			id: 'mid-tier-blend',
+			tierLabel: 'Mid-Tier Blend',
+			badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40',
+			name: 'Mid-Tier Blend',
+			blend: 'Matte black packet · Caramel & chocolate accents',
+			flavorNotes: 'Caramel sweetness, milk chocolate, gentle spice. Balanced for cafés and blends.',
+			pricePerKgGbp: 12,
+			samplePackPricesGbp: { 100: 1.2, 250: 3.0, 500: 6.0, 1000: 12.0 },
+			image: '/images/offers/mid-tier-jar.svg',
+			imageAlt: 'Mid-tier coffee blend in a premium matte black stand-up packet with Abimanyu 3 branding, caramel/chocolate accents, and a subtle window showing coffee inside.'
+		},
+		{
+			id: 'premium-blend',
+			tierLabel: 'Premium Blend',
+			badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30',
+			name: 'Premium Blend',
+			blend: 'Elegant matte black packet · Refined branding',
+			flavorNotes: 'Silky texture, cacao nibs, floral lift. A premium option for standout menus.',
+			pricePerKgGbp: 16,
+			samplePackPricesGbp: { 100: 1.6, 250: 4.0, 500: 8.0, 1000: 16.0 },
+			image: '/images/offers/premium-glass-bottle.svg',
+			imageAlt: 'Premium coffee blend in an elegant matte black stand-up packet with refined Abimanyu 3 branding and a subtle window implying coffee powder inside.'
+		}
+	];
 
 const spiceCatalogue = [
 	{
@@ -276,95 +321,85 @@ const galleryImages = [
 				<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 					<div class="max-w-2xl space-y-3">
 						<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Sales spotlight</p>
-						<h2 class="text-3xl font-bold text-white sm:text-4xl">Current Offers</h2>
-						<p class="text-base text-slate-300">
-							Quick sample-pack pricing for the three grades currently featured in the availability sheet. Tap “Buy Now” to start a WhatsApp order enquiry, or request a sample by email.
-						</p>
-					</div>
+							<h2 class="text-3xl font-bold text-white sm:text-4xl">Current Offers</h2>
+							<p class="text-base text-slate-300">
+								Three retail-ready blends shown in premium matte black packets for fast ordering. Prices are fixed for 100g, 250g, 500g, and 1kg. Tap “Buy Now” to start a WhatsApp enquiry, or request a sample by email.
+							</p>
+						</div>
 					<div class="rounded-2xl border border-amber-400/25 bg-white/[0.03] p-4 text-sm text-slate-200 shadow-xl shadow-black/30">
 						<p class="font-semibold text-white">Limited lots</p>
 						<p class="mt-1 text-xs text-slate-300">Offers refresh as stock lands in the UK. Wholesale terms confirmed on request.</p>
 					</div>
 				</div>
 
-				<div class="mt-10 grid gap-6 md:grid-cols-3">
-					{currentOffers.map((offer) => {
-						const offerPacks = offer.samplePackOptions ?? samplePackOptions;
-						const buyNowHref = buildBuyNowWhatsappHref(offer);
-						const requestSampleGrams = offer.defaultPackGrams ?? 250;
+					<div class="mt-10 grid gap-6 md:grid-cols-3">
+						{currentOffers.map((offer) => {
+							const offerPacks = offer.samplePackOptions ?? samplePackOptions;
+							const buyNowHref = buildBuyNowWhatsappHref(offer);
+							const requestSampleGrams = offer.defaultPackGrams ?? 250;
 
-						return (
-							<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:border-amber-400/70 hover:shadow-lg">
-								<div class="relative">
-									<img
-										src={offer.image}
-										alt={offer.imageAlt ?? `${offer.name} offer image`}
-										loading="lazy"
-										class="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
-									/>
-									<div class="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent"></div>
-									<span
-										class={`absolute left-4 top-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${offer.badgeClass}`}
-									>
-										{offer.tierLabel}
+							return (
+								<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:border-amber-400/70 hover:shadow-lg">
+									<div class="relative bg-white">
+										<img
+											src={offer.image}
+											alt={offer.imageAlt ?? `${offer.name} offer image`}
+											loading="lazy"
+											class="h-56 w-full object-contain p-5 transition duration-500 group-hover:scale-[1.03]"
+										/>
+										<div class="absolute inset-0 bg-gradient-to-t from-white/55 via-white/0 to-transparent"></div>
+										<span
+											class={`absolute left-4 top-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${offer.badgeClass}`}
+										>
+											{offer.tierLabel}
 									</span>
 								</div>
 
-								<div class="flex flex-1 flex-col gap-4 p-5">
-									<div class="space-y-2">
+									<div class="flex flex-1 flex-col gap-4 p-5">
 										<div class="space-y-1">
 											<h3 class="text-lg font-semibold text-slate-950">{offer.name}</h3>
 											<p class="text-sm font-semibold text-slate-700">{offer.blend}</p>
 											<p class="text-sm text-slate-600">{offer.flavorNotes}</p>
 										</div>
-										<div class="flex items-end justify-between gap-4">
-											<div>
-												<p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Price</p>
-												<p class="text-3xl font-extrabold text-slate-950">
-													{formatGbp(offer.pricePerKgGbp)}
-													<span class="ml-1 text-sm font-semibold text-slate-500">/kg</span>
-												</p>
-											</div>
-											<p class="text-xs text-slate-500 text-right">UK wholesale confirmation by WhatsApp or email.</p>
+
+										<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+											<p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Fixed pack prices</p>
+											<ul class="mt-3 grid grid-cols-2 gap-2">
+												{offerPacks.map((pack) => {
+													const optionPriceGbp = offer.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(offer.pricePerKgGbp, pack.grams);
+													return (
+														<li class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+															<span class="text-sm font-semibold text-slate-900">{pack.label}</span>
+															<span class="text-sm font-semibold text-amber-800">{formatGbp(optionPriceGbp)}</span>
+														</li>
+													);
+												})}
+											</ul>
+										</div>
+
+										<p class="text-xs text-slate-500">UK wholesale confirmation by WhatsApp or email.</p>
+
+										<div class="mt-auto flex flex-col gap-3 sm:flex-row">
+											<a
+												href={buyNowHref}
+												class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm shadow-amber-500/25 transition hover:bg-amber-400"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												Buy Now
+											</a>
+											<a
+												href={buildSampleRequestMailtoHref(offer, requestSampleGrams)}
+												class="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:border-amber-400/70 hover:bg-amber-50"
+											>
+												Request Sample
+											</a>
 										</div>
 									</div>
-
-									<div class="flex flex-col gap-3 sm:flex-row">
-										<a
-											href={buyNowHref}
-											class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm shadow-amber-500/25 transition hover:bg-amber-400"
-											target="_blank"
-											rel="noopener noreferrer"
-										>
-											Buy Now
-										</a>
-										<a
-											href={buildSampleRequestMailtoHref(offer, requestSampleGrams)}
-											class="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:border-amber-400/70 hover:bg-amber-50"
-										>
-											Request Sample
-										</a>
-									</div>
-
-									<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-										<p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Sample pack prices</p>
-										<ul class="mt-3 grid grid-cols-2 gap-2">
-											{offerPacks.map((pack) => {
-												const optionPriceGbp = offer.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(offer.pricePerKgGbp, pack.grams);
-												return (
-													<li class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-														<span class="text-sm font-semibold text-slate-900">{pack.label}</span>
-														<span class="text-sm font-semibold text-amber-800">{formatGbp(optionPriceGbp)}</span>
-													</li>
-												);
-											})}
-										</ul>
-									</div>
-								</div>
-							</article>
-						);
-					})}
-				</div>
+								</article>
+							);
+						})}
+					</div>
 			</div>
 		</section>
 
