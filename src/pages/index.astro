@@ -120,8 +120,8 @@ const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${e
 			flavorNotes: 'Bold body, toasted nuts, cocoa finish. Built for everyday wholesale orders.',
 			pricePerKgGbp: 9,
 			samplePackPricesGbp: { 100: 0.9, 250: 2.25, 500: 4.5, 1000: 9.0 },
-			image: '/images/offers/entry-level-bottle.svg',
-			imageAlt: 'Entry-level coffee blend in a premium matte black stand-up packet with Abimanyu 3 branding and a subtle window showing coffee inside.'
+			image: '/images/offers/entry-level-packet.jpg',
+			imageAlt: 'Photo-style mockup of an entry-level coffee blend in a premium matte black stand-up packet with the Abimanyu 3 logo and a subtle window showing coffee inside.'
 		},
 		{
 			id: 'mid-tier-blend',
@@ -132,8 +132,8 @@ const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${e
 			flavorNotes: 'Caramel sweetness, milk chocolate, gentle spice. Balanced for cafés and blends.',
 			pricePerKgGbp: 12,
 			samplePackPricesGbp: { 100: 1.2, 250: 3.0, 500: 6.0, 1000: 12.0 },
-			image: '/images/offers/mid-tier-jar.svg',
-			imageAlt: 'Mid-tier coffee blend in a premium matte black stand-up packet with Abimanyu 3 branding, caramel/chocolate accents, and a subtle window showing coffee inside.'
+			image: '/images/offers/mid-tier-packet.jpg',
+			imageAlt: 'Photo-style mockup of a mid-tier coffee blend in a premium matte black stand-up packet with the Abimanyu 3 logo, caramel/chocolate accents, and a subtle window showing coffee inside.'
 		},
 		{
 			id: 'premium-blend',
@@ -144,8 +144,8 @@ const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${e
 			flavorNotes: 'Silky texture, cacao nibs, floral lift. A premium option for standout menus.',
 			pricePerKgGbp: 16,
 			samplePackPricesGbp: { 100: 1.6, 250: 4.0, 500: 8.0, 1000: 16.0 },
-			image: '/images/offers/premium-glass-bottle.svg',
-			imageAlt: 'Premium coffee blend in an elegant matte black stand-up packet with refined Abimanyu 3 branding and a subtle window implying coffee powder inside.'
+			image: '/images/offers/premium-packet.jpg',
+			imageAlt: 'Photo-style mockup of a premium coffee blend in an elegant matte black stand-up packet with refined Abimanyu 3 branding and a subtle window implying coffee powder inside.'
 		}
 	];
 
@@ -340,25 +340,22 @@ const galleryImages = [
 
 							return (
 								<article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:border-amber-400/70 hover:shadow-lg">
-									<div class="relative bg-white">
+									<div class="border-b border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5">
 										<img
 											src={offer.image}
 											alt={offer.imageAlt ?? `${offer.name} offer image`}
 											loading="lazy"
-											class="h-56 w-full object-contain p-5 transition duration-500 group-hover:scale-[1.03]"
+											decoding="async"
+											class="h-56 w-full object-contain drop-shadow-[0_18px_18px_rgba(15,23,42,0.18)] transition duration-500 group-hover:scale-[1.03]"
 										/>
-										<div class="absolute inset-0 bg-gradient-to-t from-white/55 via-white/0 to-transparent"></div>
-										<span
-											class={`absolute left-4 top-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${offer.badgeClass}`}
-										>
-											{offer.tierLabel}
-									</span>
-								</div>
+									</div>
 
 									<div class="flex flex-1 flex-col gap-4 p-5">
 										<div class="space-y-1">
+											<span class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${offer.badgeClass}`}>
+												{offer.tierLabel}
+											</span>
 											<h3 class="text-lg font-semibold text-slate-950">{offer.name}</h3>
-											<p class="text-sm font-semibold text-slate-700">{offer.blend}</p>
 											<p class="text-sm text-slate-600">{offer.flavorNotes}</p>
 										</div>
 
