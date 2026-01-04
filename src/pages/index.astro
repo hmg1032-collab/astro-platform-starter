@@ -154,34 +154,94 @@ const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${e
 
 const spiceCatalogue = [
 	{
+		id: 'green-cardamom',
 		name: 'Green Cardamom',
-		description: 'Aromatic, high-oil spice suited to premium blends, bakery applications, and speciality retail.',
-		origin: 'India (South India; origin varies by lot).',
-		qualityNotes: 'Hand-sorted grades available; moisture-managed packing with QC notes on request.'
+		grade: '7mm+ · Hand-sorted',
+		price: '£22.00–£28.00',
+		priceUnit: 'kg',
+		description: 'Aromatic, high-oil spice suited to premium blends and bakery.',
+		rating: 5,
+		image: '/images/samples/green-cardamom-jar.png'
 	},
 	{
+		id: 'black-pepper',
 		name: 'Black Pepper',
-		description: 'Bold, clean pepper profile for foodservice and processing with consistent grind performance.',
-		origin: 'India (South India; origin varies by lot).',
-		qualityNotes: 'Cleaned and sorted lots available; documentation shared per shipment.'
+		grade: 'MG1/TGSEB · Bold',
+		price: '£8.50–£11.00',
+		priceUnit: 'kg',
+		description: 'Bold, clean pepper profile for foodservice and consistent grind.',
+		rating: 4.5,
+		image: '/images/samples/black-pepper-jar.png'
 	},
 	{
-		name: 'Nutmeg & Mace',
-		description: 'Warm, sweet-spice notes for bakery, beverages, and culinary manufacturing.',
-		origin: 'India (origin varies by lot).',
-		qualityNotes: 'Whole and processed formats available; quality checks shared with samples.'
+		id: 'turmeric-powder',
+		name: 'Turmeric Powder',
+		grade: 'Salem/Alleppey',
+		price: '£3.20–£4.50',
+		priceUnit: 'kg',
+		description: 'Bright colour and earthy sweetness for culinary applications.',
+		rating: 4.5,
+		image: '/images/samples/turmeric-powder-jar.png'
 	},
 	{
+		id: 'cloves',
 		name: 'Cloves',
-		description: 'Rich, eugenol-forward aroma for beverages, pickling, and spice blends.',
-		origin: 'India (origin varies by lot).',
-		qualityNotes: 'Cleaned lots; storage and moisture guidance provided for long-haul deliveries.'
+		grade: 'Hand-picked · Whole',
+		price: '£10.00–£14.00',
+		priceUnit: 'kg',
+		description: 'Rich, eugenol-forward aroma for beverages and blends.',
+		rating: 5,
+		image: '/images/samples/cloves-jar.png'
 	},
 	{
-		name: 'Turmeric',
-		description: 'Bright colour and earthy sweetness for culinary and functional product applications.',
-		origin: 'India (origin varies by lot).',
-		qualityNotes: 'Whole and powder formats available; QA notes shared where requested.'
+		id: 'cinnamon',
+		name: 'Cinnamon',
+		grade: 'C4/C5',
+		price: '£9.00–£12.00',
+		priceUnit: 'kg',
+		description: 'Warm, sweet-spice notes for bakery and beverages.',
+		rating: 4.5,
+		image: '/images/samples/cinnamon-jar.png'
+	},
+	{
+		id: 'cumin-seeds',
+		name: 'Cumin Seeds',
+		grade: 'Europe-cleaned',
+		price: '£4.50–£6.00',
+		priceUnit: 'kg',
+		description: 'Earthy, warm flavor essential for curry powders.',
+		rating: 4,
+		image: '/images/samples/cumin-seeds-jar.png'
+	},
+	{
+		id: 'coriander-seeds',
+		name: 'Coriander Seeds',
+		grade: 'Bold',
+		price: '£2.80–£3.50',
+		priceUnit: 'kg',
+		description: 'Citrusy, nutty flavor for spice blends.',
+		rating: 4,
+		image: '/images/samples/coriander-seeds-jar.png'
+	},
+	{
+		id: 'dry-ginger',
+		name: 'Dry Ginger',
+		grade: 'Sliced/Powder',
+		price: '£5.00–£7.00',
+		priceUnit: 'kg',
+		description: 'Zesty, pungent heat for baking and beverages.',
+		rating: 4.5,
+		image: '/images/samples/dry-ginger-jar.png'
+	},
+	{
+		id: 'nutmeg-mace',
+		name: 'Nutmeg & Mace',
+		grade: 'Whole / Processed',
+		price: 'Enquire',
+		priceUnit: '',
+		description: 'Warm, sweet-spice notes for culinary manufacturing.',
+		rating: 4,
+		image: '/images/samples/nutmeg-mace-jar.png'
 	}
 ];
 
@@ -236,17 +296,14 @@ const galleryImages = [
 				<div class="absolute inset-0 bg-gradient-to-br from-red-950/80 via-amber-950/65 to-rose-900/70 pointer-events-none"></div>
 			<div class="absolute inset-0 bg-slate-950/35 pointer-events-none"></div>
 			<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),_transparent_50%)] pointer-events-none"></div>
-			<div class="festive-snow" aria-hidden="true">
-				{Array.from({ length: 26 }).map((_, index) => <span class="festive-snowflake" style={`--snowflake-index:${index}`}></span>)}
-			</div>
 			<div class="relative z-10 mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-36 md:flex-row md:items-start md:gap-16 lg:px-8">
 				<div class="md:w-1/2 space-y-6">
 					<p class="uppercase tracking-[0.4em] text-xs text-amber-200/90">UK import · export · wholesale</p>
 						<h1 class="text-5xl font-extrabold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-							Premium Indian coffee &amp; spices, delivered to the UK.
+							New Year Sale Until January 15 — Premium Indian Coffee &amp; Spices for UK Roasters and Wholesalers.
 						</h1>
 												<p class="text-lg text-slate-200">
-													Bridging India &amp; UK with premium coffee and spices. Specialty Indian coffee and spices, available for UK roasters. Contact us today!
+													Trial packs available for UK roasters in 2026. Contact us for availability sheet.
 												</p>
 						
 												<div class="flex flex-wrap items-center gap-3 text-amber-100/90">
@@ -277,9 +334,9 @@ const galleryImages = [
 												<div
 													class="rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-xl shadow-black/25 backdrop-blur"
 													data-countdown
-													data-deadline="2026-01-01T23:59:00Z"
+													data-deadline="2026-01-15T23:59:00Z"
 												>
-													<p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-200/90">Christmas trial packs for UK roasters</p>
+													<p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-200/90">New Year trial packs for UK roasters</p>
 													<div class="mt-3 grid grid-cols-4 gap-2 text-center">
 														<div class="rounded-xl bg-slate-950/40 px-2 py-3">
 															<span class="block text-2xl font-extrabold text-white" data-countdown-value="days">--</span>
@@ -298,7 +355,7 @@ const galleryImages = [
 															<span class="mt-1 block text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-slate-300">Secs</span>
 														</div>
 													</div>
-													<p class="mt-2 text-xs text-slate-300">Offer ends January 1, 2026 at 23:59 GMT.</p>
+													<p class="mt-2 text-xs text-slate-300">Offer ends January 15, 2026 at 23:59 GMT.</p>
 												</div>
 						
 												<div class="flex flex-col justify-center gap-3 sm:items-start">
@@ -306,7 +363,7 @@ const galleryImages = [
 														href="#catalogue"
 														class="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-red-700 via-amber-500 to-red-700 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-red-700/30 transition hover:brightness-110 sm:w-auto"
 													>
-														Explore Holiday Samples
+														Explore Sale Samples
 													</a>							<a
 								href={`mailto:${pricingEmail}`}
 								class="inline-flex w-full items-center justify-center rounded-full border border-amber-400/60 bg-white/5 px-6 py-3 text-base font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10 hover:text-amber-50 sm:w-auto"
@@ -1076,69 +1133,7 @@ const galleryImages = [
 						opacity: 0.9;
 					}
 
-					.festive-snow {
-						position: absolute;
-						inset: 0;
-						overflow: hidden;
-						pointer-events: none;
-						z-index: 5;
-					}
 
-					.festive-snowflake {
-						--size: 6px;
-						--left: calc((var(--snowflake-index) + 1) * 3.6%);
-						--delay: calc(var(--snowflake-index) * -0.33s);
-						--duration: calc(7.5s + (var(--snowflake-index) * 0.12s));
-						position: absolute;
-						top: -10%;
-						left: var(--left);
-						width: calc(var(--size) * 3.2);
-						height: calc(var(--size) * 3.2);
-						display: grid;
-						place-items: center;
-						color: rgba(255, 255, 255, 0.85);
-						filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.35));
-						opacity: 0.8;
-						animation: festiveSnowfall var(--duration) linear infinite;
-						animation-delay: var(--delay);
-					}
-
-					.festive-snowflake::before {
-						content: '❄';
-						font-size: calc(var(--size) * 2.2);
-						line-height: 1;
-						opacity: 0.9;
-					}
-
-					.festive-snowflake:nth-child(3n) {
-						--size: 4px;
-						opacity: 0.7;
-					}
-
-					.festive-snowflake:nth-child(4n) {
-						--size: 8px;
-						opacity: 0.8;
-					}
-
-					.festive-snowflake:nth-child(5n)::before {
-						content: '✦';
-					}
-
-					@keyframes festiveSnowfall {
-						0% {
-							transform: translate3d(0, 0, 0);
-						}
-						100% {
-							transform: translate3d(0, 120vh, 0);
-						}
-					}
-
-					@media (prefers-reduced-motion: reduce) {
-						.festive-snowflake {
-							animation: none;
-							display: none;
-						}
-					}
 
 					.festive-border {
 						position: relative;
@@ -1163,80 +1158,66 @@ const galleryImages = [
 					}
 				</style>
 
-					<div class="mt-16">
-						<div id="spice-portfolio">
+					<div id="spice-portfolio" class="mt-16 scroll-mt-24">
+						<div class="mb-8">
 							<p class="text-xs uppercase tracking-[0.4em] text-amber-300/70">Product category</p>
-							<div class="mt-2 flex flex-wrap items-center gap-3">
-								<h3 class="text-2xl font-semibold text-white">Spice Portfolio</h3>
-								<span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-amber-100">
-								<svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 text-amber-200">
-									<path
-										fill="currentColor"
-										d="M8 2h8l1 3H7l1-3Zm-1.5 5h11A2.5 2.5 0 0 1 20 9.5V12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.5A2.5 2.5 0 0 1 6.5 7Zm-1 9h13l-1.3 6.1c-.2 1-1 1.9-2.1 1.9H8.9c-1.1 0-1.9-.8-2.1-1.9L5.5 16Z"
-									/>
-									<path
-										fill="currentColor"
-										d="M12 11c2 0 3.5 1.3 3.5 3s-1.5 3-3.5 3-3.5-1.3-3.5-3 1.5-3 3.5-3Zm0 1.2c-1.2 0-2.2.8-2.2 1.8s1 1.8 2.2 1.8 2.2-.8 2.2-1.8-1-1.8-2.2-1.8Z"
-										opacity="0.65"
-									/>
-									</svg>
-									Pepper jar sample
-								</span>
-								</div>
+							<h3 class="mt-2 text-2xl font-semibold text-white">Spice Portfolio</h3>
 							<p class="mt-3 max-w-3xl text-sm text-slate-300">
-								Import-ready spices are offered in wholesale formats with lot-level documentation and quality notes shared during sampling and contracting.
+								Premium whole and ground spices available in wholesale formats. Request availability for current lots.
 							</p>
-							<div class="mt-8 flex justify-center lg:max-w-4xl mx-auto">
-									<figure class="w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] shadow-2xl shadow-black/40">
-										<div class="relative h-56 w-full bg-white">
-											<img
-												src={festiveSpiceImage}
-												alt="Pepper sample jar"
-												class="h-full w-full object-contain object-center p-6"
-												loading="lazy"
-												decoding="async"
-											/>
-										<div class="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center">
-											<span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-slate-950/70 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-slate-100 shadow-lg backdrop-blur">
-												<img
-													src="/images/abimanyu-logo.jpg"
-													alt=""
-													class="h-5 w-5 rounded-full border border-amber-400/50 bg-white/5 object-cover"
-													loading="lazy"
-													decoding="async"
-												/>
-												Abimanyu 3
-											</span>
-										</div>
-										</div>
-										<figcaption class="border-t border-white/10 px-6 py-4 text-sm text-slate-200">
-											Pepper-only sample jar to align on grind, aroma, and lot documentation.
-										</figcaption>
-									</figure>
-								</div>
 						</div>
-					<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-						{spiceCatalogue.map((spice) => (
-							<article class="festive-border rounded-2xl border border-transparent bg-white/[0.02] p-6 text-sm text-slate-200 shadow-xl shadow-black/25">
-								<h4 class="text-lg font-semibold text-white">{spice.name}</h4>
-								<dl class="mt-4 space-y-3">
-									<div>
-										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Description</dt>
-										<dd class="mt-1 leading-relaxed">{spice.description}</dd>
+
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+							{spiceCatalogue.map((spice) => (
+								<article class="festive-border group flex h-full flex-col overflow-hidden rounded-2xl border border-transparent bg-white shadow-sm shadow-black/10 transition hover:-translate-y-1 hover:shadow-lg">
+									<div class="relative flex h-48 items-center justify-center bg-white p-6">
+										<img
+											src={spice.image}
+											alt={`${spice.name} jar`}
+											class="h-full w-full object-contain"
+											loading="lazy"
+										/>
 									</div>
-									<div>
-										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Origin</dt>
-										<dd class="mt-1 leading-relaxed">{spice.origin}</dd>
+									<div class="flex flex-1 flex-col border-t border-slate-100 p-5">
+										<div class="mb-2">
+											<h4 class="text-lg font-bold text-slate-900">{spice.name}</h4>
+											<div class="mt-1 flex items-center gap-1">
+												<div class="flex text-amber-400 text-sm">
+													{Array.from({ length: 5 }).map((_, i) => (
+														<svg class={`h-4 w-4 ${i < Math.floor(spice.rating) ? 'fill-current' : 'text-slate-300 fill-current'}`} viewBox="0 0 20 20">
+															<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+														</svg>
+													))}
+												</div>
+												<span class="text-xs text-slate-500">({spice.rating})</span>
+											</div>
+										</div>
+
+										<p class="mb-3 text-sm text-slate-600 line-clamp-2">{spice.description}</p>
+										
+										<div class="mt-auto space-y-3">
+											<div class="text-xs text-slate-500">
+												<span class="font-semibold text-slate-700">Grade:</span> {spice.grade}
+											</div>
+											<div class="flex items-baseline gap-1">
+												<span class="text-xl font-bold text-slate-900">{spice.price}</span>
+												{spice.priceUnit && <span class="text-xs text-slate-500">/{spice.priceUnit}</span>}
+											</div>
+											
+											<a
+												href={`mailto:${pricingEmail}?subject=Availability Request: ${spice.name}&body=Hi Abimanyu team,%0A%0APlease confirm availability and current pricing for: ${spice.name} (${spice.grade}).%0A%0ATarget quantity:%0A%0AThank you.`}
+												class="inline-flex w-full items-center justify-center rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
+											>
+												Request Availability
+											</a>
+										</div>
 									</div>
-									<div>
-										<dt class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/80">Quality notes</dt>
-										<dd class="mt-1 leading-relaxed">{spice.qualityNotes}</dd>
-									</div>
-								</dl>
-							</article>
-						))}
+								</article>
+							))}
+						</div>
 					</div>
-				</div>
+
+
 
 				<div class="mt-16">
 					<div>
