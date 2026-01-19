@@ -12,10 +12,13 @@ const cataloguePdfPath = '/Abimanyu3_CoffeeSpice_Catalogue_UK_2025.pdf';
 	const whatsappCatalogueUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappPrefillText)}`;
 
 const samplePackOptions = [
-	{ grams: 100, label: '100g' },
-	{ grams: 250, label: '250g' },
-	{ grams: 500, label: '500g' },
-	{ grams: 1000, label: '1kg' }
+	{ grams: 100, label: '100g', imageType: 'jar' },
+	{ grams: 250, label: '250g', imageType: 'jar' },
+	{ grams: 500, label: '500g', imageType: 'jar' },
+	{ grams: 1000, label: '1kg', imageType: 'vacuum' },
+	{ grams: 5000, label: '5kg', imageType: 'pouch' },
+	{ grams: 25000, label: '25kg', imageType: 'bag' },
+	{ grams: 50000, label: '50kg', imageType: 'bag' }
 ];
 
 const formatGbp = (value) =>
@@ -72,85 +75,180 @@ const buildWhatsappHref = (message) => `https://wa.me/${whatsappNumber}?text=${e
 	return buildWhatsappHref(messageLines.join('\n'));
 };
 
-	const coffeeCatalogue = [
+	const greenCoffee = [
 	{
-		id: 'arabica-plantation-aa',
-		tierLabel: 'Premium Grade',
-		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40',
-		name: 'Arabica Plantation AA',
-		blend: 'Fully washed lots',
-		flavorNotes: 'Moisture ≤ 12%, SCAA 83+ cupping approvals.',
+		id: 'arabica-aa',
+		name: 'Arabica AA',
+		origin: 'Chikmagalur Estate',
+		grade: 'AA',
+		processing: 'Washed',
+		flavorNotes: 'Balanced acidity, mild body, and fruity notes.',
+		targetSegment: 'Specialty Roasters',
 		pricePerKgGbp: 12,
-		samplePackPricesGbp: { 100: 1.2, 250: 3.0, 500: 6.0, 1000: 12.0 },
-		image: '/images/grades/arabica-aa.jpg',
-		imageAlt: 'Arabica coffee beans ready for grading and packing.'
+		image: '/images/grades/arabica-aa-v2.jpg',
+		tierLabel: 'Premium Grade',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
 	},
 	{
-		id: 'robusta-cherry-ab',
-		tierLabel: 'Limited Availability',
-		badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30',
-		name: 'Robusta Cherry AB',
-		blend: 'Sun-dried · Screen 17+',
-		flavorNotes: 'Ideal for espresso blends and instant bases.',
-		pricePerKgGbp: 9,
-		samplePackPricesGbp: { 100: 0.9, 250: 2.25, 500: 4.5, 1000: 9.0 },
-		image: '/images/grades/robusta-ab.jpg',
-		imageAlt: 'Robusta coffee cherries and beans prepared for processing.'
+		id: 'arabica-plantation-pb',
+		name: 'Arabica Plantation PB',
+		origin: 'Coorg/Chikmagalur',
+		grade: 'Peaberry',
+		processing: 'Washed',
+		flavorNotes: 'Intense aroma, full body, and playful acidity.',
+		targetSegment: 'Espresso Blends',
+		pricePerKgGbp: 11,
+		image: '/images/grades/plantation-pb-new.jpg',
+		tierLabel: 'Exotic',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
 	},
-		{
-			id: 'sampler-ready-sealed-1kg',
-			tierLabel: 'UK Dispatch',
-			badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30',
-			name: 'Sampler Ready – Sealed 1 kg',
-			blend: 'Sealed sample jars · 1 kg',
-			flavorNotes: 'Sealed sample jars prepared for quick cupping and roast trials in the UK.',
-			pricePerKgGbp: 16,
-			samplePackPricesGbp: { 1000: 16.0 },
-			samplePackOptions: [{ grams: 1000, label: '1kg' }],
-			defaultPackGrams: 1000,
-			image: '/images/samples/coffee-jar-real.png',
-			imageAlt: 'Coffee jar sample sealed and ready for dispatch.'
-		}
-		];
+	{
+		id: 'arabica-plantation-a',
+		name: 'Arabica Plantation A',
+		origin: 'Chikmagalur',
+		grade: 'Plantation A',
+		processing: 'Washed',
+		flavorNotes: 'Smooth, chocolatey, with a hint of spice.',
+		targetSegment: 'Commercial Blends',
+		pricePerKgGbp: 10,
+		image: '/images/grades/arabica-plantation-a.jpg',
+		tierLabel: 'Standard',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
+	},
+	{
+		id: 'arabica-plantation-b',
+		name: 'Arabica Plantation B',
+		origin: 'Chikmagalur',
+		grade: 'Plantation B',
+		processing: 'Washed',
+		flavorNotes: 'Good body, moderate acidity, nutty.',
+		targetSegment: 'Value Blends',
+		pricePerKgGbp: 10,
+		image: '/images/grades/arabica-plantation-b.jpg',
+		tierLabel: 'Value',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
+	},
+	{
+		id: 'robusta-cherry-c',
+		name: 'Robusta Cherry C',
+		origin: 'Wayanad',
+		grade: 'Cherry C',
+		processing: 'Natural',
+		flavorNotes: 'Strong body, earthy, high caffeine.',
+		targetSegment: 'Instant / Strong Blends',
+		pricePerKgGbp: 8,
+		image: '/images/grades/robusta-c.jpg',
+		tierLabel: 'Industrial',
+		badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30'
+	},
+	{
+		id: 'robusta-parchment-ab',
+		name: 'Robusta Parchment AB',
+		origin: 'Coorg',
+		grade: 'Parchment AB',
+		processing: 'Washed',
+		flavorNotes: 'Clean, smooth, less bitter than cherry.',
+		targetSegment: 'Premium Espresso',
+		pricePerKgGbp: 9,
+		image: '/images/grades/robusta-parchment-ab.jpg',
+		tierLabel: 'Premium Robusta',
+		badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30'
+	},
+	{
+		id: 'robusta-ab',
+		name: 'Robusta AB',
+		origin: 'Coorg',
+		grade: 'AB',
+		processing: 'Natural',
+		flavorNotes: 'Bold, woody, excellent crema.',
+		targetSegment: 'Espresso Blends',
+		pricePerKgGbp: 9,
+		image: '/images/grades/robusta-ab.jpg',
+		tierLabel: 'Standard Robusta',
+		badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30'
+	},
+	{
+		id: 'mysore-nuggets-extra-bold',
+		name: 'Mysore Nuggets Extra Bold',
+		origin: 'Mysore',
+		grade: 'MNEB',
+		processing: 'Washed',
+		flavorNotes: 'Gold standard Arabica. Large beans, bluish-green.',
+		targetSegment: 'Specialty',
+		pricePerKgGbp: 13,
+		image: '/images/grades/mysore-nuggets.jpg',
+		tierLabel: 'Super Premium',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
+	},
+	{
+		id: 'organic-estate-microlots',
+		name: 'Organic Estate Microlots',
+		origin: 'Certified Estates',
+		grade: 'Microlot',
+		processing: 'Various',
+		flavorNotes: 'Unique profiles, chemical-free, sustainable.',
+		targetSegment: 'Niche Specialty',
+		pricePerKgGbp: 16,
+		image: '/images/grades/organic-estate.jpg',
+		tierLabel: 'Organic',
+		badgeClass: 'bg-green-900/55 text-green-100 border-green-300/40'
+	},
+	{
+		id: 'monsooned-malabar-aa',
+		name: 'Monsooned Malabar AA',
+		origin: 'Malabar Coast',
+		grade: 'AA',
+		processing: 'Monsooned',
+		flavorNotes: 'Mellow, low acidity, spicy, straw-like notes.',
+		targetSegment: 'Exotic Blends',
+		pricePerKgGbp: 12,
+		image: '/images/grades/monsooned-malabar-v2.jpg',
+		tierLabel: 'Monsooned',
+		badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40'
+	}
+];
 
-	const currentOffers = [
-		{
-			id: 'entry-level-blend',
-			tierLabel: 'Entry-Level Blend',
-			badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30',
-			name: 'Entry-Level Blend',
-			blend: 'Matte black packet · Earthy notes',
-			flavorNotes: 'Bold body, toasted nuts, cocoa finish. Built for everyday wholesale orders.',
-			pricePerKgGbp: 9,
-			samplePackPricesGbp: { 100: 0.9, 250: 2.25, 500: 4.5, 1000: 9.0 },
-			image: '/images/offers/entry-level-packet.jpg',
-			imageAlt: 'Photo-style mockup of an entry-level coffee blend in a premium matte black stand-up packet with the Abimanyu 3 logo and a subtle window showing coffee inside.'
-		},
-		{
-			id: 'mid-tier-blend',
-			tierLabel: 'Mid-Tier Blend',
-			badgeClass: 'bg-amber-900/55 text-amber-100 border-amber-300/40',
-			name: 'Mid-Tier Blend',
-			blend: 'Matte black packet · Caramel & chocolate accents',
-			flavorNotes: 'Caramel sweetness, milk chocolate, gentle spice. Balanced for cafés and blends.',
-			pricePerKgGbp: 12,
-			samplePackPricesGbp: { 100: 1.2, 250: 3.0, 500: 6.0, 1000: 12.0 },
-			image: '/images/offers/mid-tier-packet.jpg',
-			imageAlt: 'Photo-style mockup of a mid-tier coffee blend in a premium matte black stand-up packet with the Abimanyu 3 logo, caramel/chocolate accents, and a subtle window showing coffee inside.'
-		},
-		{
-			id: 'premium-blend',
-			tierLabel: 'Premium Blend',
-			badgeClass: 'bg-sky-900/55 text-sky-100 border-sky-300/30',
-			name: 'Premium Blend',
-			blend: 'Elegant matte black packet · Refined branding',
-			flavorNotes: 'Silky texture, cacao nibs, floral lift. A premium option for standout menus.',
-			pricePerKgGbp: 16,
-			samplePackPricesGbp: { 100: 1.6, 250: 4.0, 500: 8.0, 1000: 16.0 },
-			image: '/images/offers/premium-packet.jpg',
-			imageAlt: 'Photo-style mockup of a premium coffee blend in an elegant matte black stand-up packet with refined Abimanyu 3 branding and a subtle window implying coffee powder inside.'
-		}
-	];
+const roastedCoffee = [
+	{
+		id: 'entry-level-blend-60-robusta',
+		name: 'Entry-Level Blend (60% Robusta)',
+		origin: 'India',
+		grade: 'Blend',
+		processing: 'Roasted',
+		flavorNotes: 'Strong, punchy, great for milk-based drinks.',
+		targetSegment: 'High Volume Cafés',
+		pricePerKgGbp: 8,
+		image: '/images/offers/entry-level-packet.jpg',
+		tierLabel: 'Entry Level',
+		badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30'
+	},
+	{
+		id: 'entry-level-blend-70-arabica',
+		name: 'Entry-Level Blend (70% Arabica)',
+		origin: 'India',
+		grade: 'Blend',
+		processing: 'Roasted',
+		flavorNotes: 'Balanced, smooth, crowd-pleaser.',
+		targetSegment: 'Cafés & Restaurants',
+		pricePerKgGbp: 11,
+		image: '/images/offers/mid-tier-packet.jpg',
+		tierLabel: 'Mid Tier',
+		badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30'
+	},
+	{
+		id: 'premium-100-arabica-blend',
+		name: 'Premium 100% Arabica Blend',
+		origin: 'India',
+		grade: 'Blend',
+		processing: 'Roasted',
+		flavorNotes: 'Complex, aromatic, superior finish.',
+		targetSegment: 'Specialty Coffee Shops',
+		pricePerKgGbp: 16,
+		image: '/images/offers/premium-packet.jpg',
+		tierLabel: 'Premium',
+		badgeClass: 'bg-slate-900/70 text-slate-100 border-slate-400/30'
+	}
+];
 
 const spiceCatalogue = [
 	{
@@ -596,18 +694,22 @@ const galleryImages = [
 						</div>
 					</div>
 
-					<div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-						{coffeeCatalogue.map((product) => (
+					<div class="mt-8">
+						<h3 class="text-xl font-bold text-white">Green Coffee</h3>
+						<div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+						{greenCoffee.map((product) => (
 							<article
 								id={product.id}
 								class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md shadow-black/10 transition hover:-translate-y-1 hover:shadow-xl"
 							>
 								<div class="relative">
 									<img
+										id={`img-${product.id}`}
 										src={product.image}
 										alt={product.imageAlt ?? `${product.name} coffee product`}
 										loading="lazy"
 										class="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
+										data-base-image={product.image}
 									/>
 									<div class="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent"></div>
 									<span
@@ -620,9 +722,10 @@ const galleryImages = [
 								<div class="flex flex-1 flex-col p-5">
 									<h4 class="text-base font-semibold text-slate-950">
 										{product.name}
-										<span class="text-slate-600"> · {product.blend}</span>
+										<span class="text-slate-600"> · {product.grade}</span>
 									</h4>
 									<p class="mt-2 text-sm text-slate-700">{product.flavorNotes}</p>
+									<p class="mt-1 text-xs text-slate-500">Processing: {product.processing}</p>
 
 									<div class="mt-4 flex items-baseline justify-between gap-4">
 										<span class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Price / kg</span>
@@ -633,8 +736,8 @@ const galleryImages = [
 									</div>
 
 									<fieldset class="mt-4">
-										<legend class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Sample packs</legend>
-										<div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+										<legend class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Pack Size</legend>
+										<div class="mt-3 grid grid-cols-3 gap-2">
 											{(product.samplePackOptions ?? samplePackOptions).map((pack) => {
 												const optionId = `pack-${product.id}-${pack.grams}`;
 												const optionPriceGbp = product.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(product.pricePerKgGbp, pack.grams);
@@ -650,6 +753,7 @@ const galleryImages = [
 															name={`pack-${product.id}`}
 															value={pack.grams}
 															data-pack-price={optionPriceGbp}
+															data-image-type={pack.imageType}
 															checked={pack.grams === (product.defaultPackGrams ?? 250)}
 															class="peer sr-only"
 														/>
@@ -668,7 +772,7 @@ const galleryImages = [
 											data-action="add-to-cart"
 											data-product-id={product.id}
 											data-product-name={product.name}
-											data-product-grade={product.blend}
+											data-product-grade={product.grade}
 											data-price-per-kg={product.pricePerKgGbp}
 											class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400"
 										>
@@ -679,11 +783,11 @@ const galleryImages = [
 											data-action="request-sample"
 											data-product-id={product.id}
 											data-product-name={product.name}
-											data-product-grade={product.blend}
+											data-product-grade={product.grade}
 											data-price-per-kg={product.pricePerKgGbp}
 											class="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:border-amber-400/70 hover:bg-amber-50"
 										>
-											Request Sample
+											Contact Bulk
 										</a>
 									</div>
 
@@ -693,6 +797,113 @@ const galleryImages = [
 								</div>
 							</article>
 						))}
+						</div>
+					</div>
+
+					<div class="mt-12">
+						<h3 class="text-xl font-bold text-white">Roasted Coffee</h3>
+						<div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+						{roastedCoffee.map((product) => (
+							<article
+								id={product.id}
+								class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md shadow-black/10 transition hover:-translate-y-1 hover:shadow-xl"
+							>
+								<div class="relative">
+									<img
+										id={`img-${product.id}`}
+										src={product.image}
+										alt={product.imageAlt ?? `${product.name} coffee product`}
+										loading="lazy"
+										class="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
+										data-base-image={product.image}
+									/>
+									<div class="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent"></div>
+									<span
+										class={`absolute left-4 top-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${product.badgeClass}`}
+									>
+										{product.tierLabel}
+									</span>
+								</div>
+
+								<div class="flex flex-1 flex-col p-5">
+									<h4 class="text-base font-semibold text-slate-950">
+										{product.name}
+										<span class="text-slate-600"> · {product.grade}</span>
+									</h4>
+									<p class="mt-2 text-sm text-slate-700">{product.flavorNotes}</p>
+									<p class="mt-1 text-xs text-slate-500">Processing: {product.processing} · Target: {product.targetSegment}</p>
+
+									<div class="mt-4 flex items-baseline justify-between gap-4">
+										<span class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Price / kg</span>
+										<span class="text-2xl font-bold text-slate-950">
+											{formatGbp(product.pricePerKgGbp)}
+											<span class="ml-1 text-sm font-semibold text-slate-600">/kg</span>
+										</span>
+									</div>
+
+									<fieldset class="mt-4">
+										<legend class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">Pack Size</legend>
+										<div class="mt-3 grid grid-cols-3 gap-2">
+											{(product.samplePackOptions ?? samplePackOptions).map((pack) => {
+												const optionId = `pack-${product.id}-${pack.grams}`;
+												const optionPriceGbp = product.samplePackPricesGbp?.[pack.grams] ?? packPriceFromKg(product.pricePerKgGbp, pack.grams);
+
+												return (
+													<label
+														for={optionId}
+														class="group/pack relative flex cursor-pointer flex-col items-start justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left transition hover:border-amber-400/60 hover:bg-amber-50"
+													>
+														<input
+															id={optionId}
+															type="radio"
+															name={`pack-${product.id}`}
+															value={pack.grams}
+															data-pack-price={optionPriceGbp}
+															data-image-type={pack.imageType}
+															checked={pack.grams === (product.defaultPackGrams ?? 250)}
+															class="peer sr-only"
+														/>
+														<span class="text-sm font-semibold text-slate-900 peer-checked:text-slate-950">{pack.label}</span>
+														<span class="text-xs text-slate-600 peer-checked:text-amber-800">{formatGbp(optionPriceGbp)}</span>
+														<span class="pointer-events-none absolute inset-0 rounded-xl ring-0 ring-amber-400/70 transition peer-checked:ring-2"></span>
+													</label>
+												);
+											})}
+										</div>
+									</fieldset>
+
+									<div class="mt-5 flex gap-3">
+										<button
+											type="button"
+											data-action="add-to-cart"
+											data-product-id={product.id}
+											data-product-name={product.name}
+											data-product-grade={product.grade}
+											data-price-per-kg={product.pricePerKgGbp}
+											class="inline-flex flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400"
+										>
+											Add to Cart
+										</button>
+										<a
+											href={buildSampleRequestMailtoHref(product, product.defaultPackGrams ?? 250)}
+											data-action="request-sample"
+											data-product-id={product.id}
+											data-product-name={product.name}
+											data-product-grade={product.grade}
+											data-price-per-kg={product.pricePerKgGbp}
+											class="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:border-amber-400/70 hover:bg-amber-50"
+										>
+											Contact Bulk
+										</a>
+									</div>
+
+									<p class="mt-3 text-xs text-slate-500">
+										Sample-pack prices are shown per size. Bulk terms available on request.
+									</p>
+								</div>
+							</article>
+						))}
+						</div>
 					</div>
 
 					<p class="mt-6 text-xs text-slate-400">Organic estate image credit: Athira96, Chikkamagalur estate — licensed under CC&nbsp;BY-SA&nbsp;4.0 via Wikimedia Commons.</p>
@@ -740,6 +951,12 @@ const galleryImages = [
 									WhatsApp Order Request
 								</button>
 							</div>
+							<a
+								href="/cart"
+								class="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.06]"
+							>
+								View Full Cart
+							</a>
 							<button
 								type="button"
 								id="cart-clear"
@@ -962,6 +1179,26 @@ const galleryImages = [
 					});
 
 					renderCart();
+
+					const packagingImages = {
+						jar: '/images/samples/coffee-jar-real.png',
+						vacuum: '/images/festive/vacuum-coffee-samples.svg',
+						pouch: '/images/offers/mid-tier-packet.jpg',
+						bag: '/images/coffee-beans.jpg'
+					};
+
+					document.addEventListener('change', (event) => {
+						const target = event.target;
+						if (!(target instanceof HTMLInputElement) || target.type !== 'radio' || !target.name.startsWith('pack-')) return;
+
+						const productId = target.name.replace('pack-', '');
+						const imageType = target.dataset.imageType;
+						const imgEl = document.getElementById(`img-${productId}`);
+
+						if (imgEl && imageType && packagingImages[imageType]) {
+							imgEl.src = packagingImages[imageType];
+						}
+					});
 				</script>
 
 				<script type="module" is:inline>

@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pricingEmail = 'abimanyu3wholesale@gmail.com';
+const whatsappNumber = '447341652445';
+---
+
+<Layout title="Cart | Abimanyu 3 Ltd">
+	<main class="min-h-screen bg-[#050a18] text-slate-100 pt-32 px-6 lg:px-8">
+		<div class="mx-auto max-w-4xl">
+			<h1 class="text-3xl font-bold text-white mb-8">Your Cart</h1>
+
+			<div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-xl shadow-black/30">
+				<ul id="cart-page-items" class="space-y-4 min-h-[200px]">
+					<!-- Items injected here -->
+                    <li class="text-slate-400 text-center py-10">Loading cart...</li>
+				</ul>
+
+				<div class="border-t border-white/10 mt-6 pt-6">
+					<div class="flex items-baseline justify-between mb-6">
+						<span class="text-sm font-semibold uppercase tracking-wider text-slate-400">Total Estimate</span>
+						<span id="cart-page-total" class="text-2xl font-bold text-amber-200">£0.00</span>
+					</div>
+
+					<div class="grid gap-4 sm:grid-cols-2">
+						<button
+							id="cart-page-email"
+							class="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-4 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400"
+						>
+							Request Quote via Email
+						</button>
+						<button
+							id="cart-page-whatsapp"
+							class="inline-flex items-center justify-center rounded-xl border border-amber-400/60 bg-white/5 px-6 py-4 text-base font-semibold text-amber-100 transition hover:border-amber-300 hover:bg-white/10"
+						>
+							Request Quote via WhatsApp
+						</button>
+					</div>
+                    
+                    <button id="cart-page-clear" class="mt-4 text-sm text-red-400 hover:text-red-300 underline">Clear Cart</button>
+				</div>
+			</div>
+            
+            <div class="mt-8 text-center">
+                <a href="/#catalogue" class="text-amber-200 hover:text-amber-100 underline">Continue Shopping</a>
+            </div>
+		</div>
+	</main>
+
+	<script is:inline define:vars={{ pricingEmail, whatsappNumber }}>
+		const storageKey = 'abimanyu_cart_v1';
+		const cartItemsEl = document.getElementById('cart-page-items');
+		const cartTotalEl = document.getElementById('cart-page-total');
+        const clearBtn = document.getElementById('cart-page-clear');
+        const emailBtn = document.getElementById('cart-page-email');
+        const whatsappBtn = document.getElementById('cart-page-whatsapp');
+
+		const formatGbp = (value) =>
+			new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 2 }).format(value);
+
+		const readCart = () => {
+			try {
+				const raw = localStorage.getItem(storageKey);
+				return raw ? JSON.parse(raw) : [];
+			} catch {
+				return [];
+			}
+		};
+        
+        const writeCart = (cart) => {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(cart));
+            } catch {}
+        };
+
+		const renderCartPage = () => {
+			const cart = readCart();
+			if (!cartItemsEl || !cartTotalEl) return;
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<li class="text-slate-400 text-center py-10">Your cart is empty.</li>';
+                cartTotalEl.textContent = formatGbp(0);
+                return;
+            }
+
+			cartItemsEl.innerHTML = '';
+			let total = 0;
+
+			cart.forEach((item, index) => {
+				total += item.priceGbp;
+				const li = document.createElement('li');
+				li.className = 'flex items-start justify-between gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5';
+				li.innerHTML = '
+                    <div>
+                        <p class="font-semibold text-white text-lg">' + item.name + '</p>
+                        <p class="text-slate-400 text-sm">' + item.grade + '</p>
+                        <p class="mt-1 text-amber-100 font-medium">' + item.grams + 'g — ' + formatGbp(item.priceGbp) + '</p>
+                    </div>
+                    <button data-remove="' + index + '" class="text-sm text-red-400 hover:text-red-300 border border-red-900/30 px-3 py-1 rounded-lg hover:bg-red-900/20">Remove</button>
+                ';
+				cartItemsEl.appendChild(li);
+			});
+
+			cartTotalEl.textContent = formatGbp(total);
+		};
+        
+        cartItemsEl?.addEventListener('click', (e) => {
+            if (e.target.matches('[data-remove]')) {
+                const index = Number(e.target.dataset.remove);
+                const cart = readCart();
+                cart.splice(index, 1);
+                writeCart(cart);
+                renderCartPage();
+            }
+        });
+        
+        clearBtn?.addEventListener('click', () => {
+            if(confirm('Are you sure you want to clear your cart?')) {
+                writeCart([]);
+                renderCartPage();
+            }
+        });
+        
+        const cartToSummaryLines = (cart) => {
+            const lines = ['Hi Abimanyu team,', '', 'Please confirm availability and pricing for the following items:', ''];
+            cart.forEach((item) => {
+                lines.push('- ' + item.name + ' (' + item.grade + ') — ' + item.grams + 'g — ' + formatGbp(item.priceGbp));
+            });
+            lines.push('', 'Delivery address:', '- Name:', '- Company:', '- Address:', '- Postcode:', '- Phone:', '', 'Thank you.');
+            return lines;
+        };
+
+        emailBtn?.addEventListener('click', () => {
+            const cart = readCart();
+            if (cart.length === 0) return alert('Cart is empty');
+            const subject = 'Order request (samples / bulk quote)';
+            const body = cartToSummaryLines(cart).join('\n');
+            window.location.href = `mailto:${pricingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+
+        whatsappBtn?.addEventListener('click', () => {
+            const cart = readCart();
+            if (cart.length === 0) return alert('Cart is empty');
+            const text = cartToSummaryLines(cart).join('\n');
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+        });
+
+		renderCartPage();
+	</script>
+</Layout>
