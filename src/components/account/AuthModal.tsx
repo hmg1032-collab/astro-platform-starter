@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as netlifyIdentity from 'netlify-identity-widget';
+import { clearAuthCache, consumeAuthReset } from './authReset';
 
 declare global {
 	interface Window {
@@ -140,6 +141,12 @@ export default function AuthModal() {
 	};
 
 	React.useEffect(() => {
+		const didReset = consumeAuthReset();
+		if (didReset) {
+			clearAuthCache();
+			setSuccess('Login cache cleared. Please sign in again.');
+		}
+
 		try {
 			netlifyIdentity.init({ locale: 'en' });
 		} catch {

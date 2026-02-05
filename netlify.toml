@@ -15,3 +15,9 @@
   from = "/delivery"
   to = "/account"
   status = 301
+
+[[redirects]]
+  from = "/account/login"
+  to = "/login"
+  status = 301
+  force = true
