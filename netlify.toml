@@ -8,6 +8,8 @@
 [functions]
   directory = "netlify/functions"
 
+# Domain-level redirects: consolidate all traffic to the primary custom domain.
+# These are also defined in public/_redirects (which takes priority) as a belt-and-braces approach.
 [[redirects]]
   from = "https://www.abimanyu3wholesale.com/*"
   to = "https://abimanyu3wholesale.com/:splat"
@@ -20,6 +22,7 @@
   status = 301
   force = true
 
+# Internal path redirects
 [[redirects]]
   from = "/delivery"
   to = "/account"
