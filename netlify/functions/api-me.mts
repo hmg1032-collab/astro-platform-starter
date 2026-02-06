@@ -20,12 +20,6 @@ export default async (_req: Request, context: Context) => {
 
 	const store = getPortalStore();
 	await store.setJSON(`identity/email/${email}`, { sub: user.sub, updatedAt: new Date().toISOString() });
-	await store.setJSON(`user_login/${user.sub}`, {
-		id: user.sub,
-		email,
-		name: user.user_metadata?.full_name ?? user.user_metadata?.name ?? null,
-		lastLoginAt: new Date().toISOString()
-	});
 
 	return json({
 		user: {
@@ -39,3 +33,4 @@ export default async (_req: Request, context: Context) => {
 export const config: Config = {
 	path: '/api/me'
 };
+
