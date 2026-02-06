@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as netlifyIdentity from 'netlify-identity-widget';
-import { clearAuthCache, consumeAuthReset } from './authReset';
 
 type Mode = 'login' | 'signup';
 type IdentityAvailability = 'unknown' | 'available' | 'unavailable';
@@ -140,12 +139,6 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 	const signupPath = React.useMemo(() => `/signup?returnTo=${encodeURIComponent(returnTo)}`, [returnTo]);
 
 	React.useEffect(() => {
-		const didReset = consumeAuthReset();
-		if (didReset) {
-			clearAuthCache();
-			setSuccess('Login cache cleared. Please sign in again.');
-		}
-
 		try {
 			netlifyIdentity.init({ locale: 'en' });
 		} catch {
