@@ -30,8 +30,8 @@ const decodeBase64ToArrayBuffer = (base64: string): ArrayBuffer => {
 const getOrdersKey = (userId: string) => `orders/${userId}.json`;
 
 export default async (req: Request, context: Context) => {
-	const adminToken = Netlify.env.ADMIN_API_TOKEN;
-	const providedToken = req.headers.get('x-admin-token');
+	const adminToken = process.env.ADMIN_API_TOKEN;
+	const authHeader = req.headers.get('authorization');
 
 	if (!adminToken || !providedToken || providedToken !== adminToken) {
 		return json({ error: 'Unauthorized' }, { status: 401 });
