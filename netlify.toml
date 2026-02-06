@@ -2,11 +2,20 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "22.22.0"
+
 [functions]
   directory = "netlify/functions"
 
 [[redirects]]
   from = "https://www.abimanyu3wholesale.com/*"
+  to = "https://abimanyu3wholesale.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://abimanyu3wholesale.netlify.app/*"
   to = "https://abimanyu3wholesale.com/:splat"
   status = 301
   force = true
