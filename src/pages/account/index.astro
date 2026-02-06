@@ -9,4 +9,11 @@ import DeliveryDashboard from '../../components/delivery/DeliveryDashboard';
 			<DeliveryDashboard client:only="react" />
 		</div>
 	</main>
+    <script>
+        import * as netlifyIdentity from 'netlify-identity-widget';
+        netlifyIdentity.init();
+        if (!netlifyIdentity.currentUser()) {
+            window.location.assign('/login?returnTo=/account');
+        }
+    </script>
 </Layout>

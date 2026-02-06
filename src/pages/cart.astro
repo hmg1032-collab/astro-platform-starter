@@ -147,4 +147,11 @@ const whatsappNumber = '447341652445';
 
 		renderCartPage();
 	</script>
+    <script>
+        import * as netlifyIdentity from 'netlify-identity-widget';
+        netlifyIdentity.init();
+        if (!netlifyIdentity.currentUser()) {
+            window.location.assign('/login?returnTo=/cart');
+        }
+    </script>
 </Layout>

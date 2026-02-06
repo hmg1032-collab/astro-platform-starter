@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as netlifyIdentity from 'netlify-identity-widget';
 
-type Mode = 'login' | 'signup';
+type Mode = 'login' | 'signup' | 'recovery';
 type IdentityAvailability = 'unknown' | 'available' | 'unavailable';
 
 type Props = {
@@ -113,7 +113,7 @@ function removeHashFromUrl() {
 	window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
 }
 
-export default function AuthPage({ mode: initialMode, defaultReturnTo = '/account' }: Props) {
+export default function AuthPage({ mode: initialMode, defaultReturnTo = '/dashboard' }: Props) {
 	const [mode, setMode] = React.useState<Mode>(initialMode);
 	const [email, setEmail] = React.useState(getPrefilledEmail());
 	const [password, setPassword] = React.useState('');
@@ -214,6 +214,33 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 		}
 	};
 
+	const doRecovery = async () => {
+		if (identityAvailability === 'unavailable') {
+			setError('Customer accounts are not enabled on this site yet. Please contact support.');
+			return;
+		}
+		if (!email.trim()) {
+			setError('Please enter your email address.');
+			return;
+		}
+		setBusy(true);
+		setError(null);
+		setSuccess(null);
+
+		try {
+			const gotrue = (netlifyIdentity as unknown as { gotrue?: any }).gotrue;
+			if (!gotrue || typeof gotrue.requestPasswordRecovery !== 'function') {
+				throw new Error('Password recovery is unavailable right now. Please try again later.');
+			}
+			await gotrue.requestPasswordRecovery(email.trim());
+			setSuccess('If an account exists for this email, you will receive a password reset link shortly.');
+		} catch (err) {
+			setError(toCustomerFacingError(safeMessage(err)));
+		} finally {
+			setBusy(false);
+		}
+	};
+
 	const doSignup = async () => {
 		if (identityAvailability === 'unavailable') {
 			setError('Customer accounts are not enabled on this site yet. Please contact support.');
@@ -266,12 +293,21 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 	};
 
 	const isSignup = mode === 'signup';
+	const isRecovery = mode === 'recovery';
 
 	return (
 		<div className="mx-auto max-w-2xl">
 			<p className="text-xs uppercase tracking-[0.4em] text-amber-300/70">Customer portal</p>
-			<h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl">{isSignup ? 'Create account' : 'Sign in'}</h1>
-			<p className="mt-4 text-base text-slate-300">{isSignup ? 'Create an account to track orders and delivery.' : 'Sign in to track orders and delivery.'}</p>
+			<h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
+				{isSignup ? 'Create account' : isRecovery ? 'Reset Password' : 'Sign in'}
+			</h1>
+			<p className="mt-4 text-base text-slate-300">
+				{isSignup
+					? 'Create an account to track orders and delivery.'
+					: isRecovery
+						? 'Enter your email to receive a password reset link.'
+						: 'Sign in to track orders and delivery.'}
+			</p>
 
 			{identityAvailability === 'unavailable' ? (
 				<div className="mt-8 rounded-3xl border border-amber-400/30 bg-amber-500/10 p-6 text-sm text-amber-100 shadow-2xl shadow-black/40">
@@ -286,7 +322,9 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 				className="mt-10 grid gap-5 rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black/40"
 				onSubmit={(event) => {
 					event.preventDefault();
-					if (!email.trim() || !password) return;
+					if (!email.trim()) return;
+					if (isRecovery) return void doRecovery();
+					if (!password) return;
 					if (isSignup) return void doSignup();
 					return void doLogin();
 				}}
@@ -306,19 +344,36 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 					/>
 				</label>
 
-				<label className="grid gap-2">
-					<span className="text-sm font-medium text-slate-200">Password</span>
-					<input
-						type="password"
-						autoComplete={isSignup ? 'new-password' : 'current-password'}
-						required
-						minLength={8}
-						value={password}
-						onChange={(event) => setPassword(event.target.value)}
-						className="h-11 rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-sm text-slate-100 outline-none transition focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30"
-						placeholder="At least 8 characters"
-					/>
-				</label>
+				{!isRecovery ? (
+					<label className="grid gap-2">
+						<div className="flex items-center justify-between">
+							<span className="text-sm font-medium text-slate-200">Password</span>
+							{!isSignup ? (
+								<button
+									type="button"
+									onClick={() => {
+										setMode('recovery');
+										setError(null);
+										setSuccess(null);
+									}}
+									className="text-xs text-amber-200 hover:text-amber-100 transition"
+								>
+									Forgot password?
+								</button>
+							) : null}
+						</div>
+						<input
+							type="password"
+							autoComplete={isSignup ? 'new-password' : 'current-password'}
+							required={!isRecovery}
+							minLength={8}
+							value={password}
+							onChange={(event) => setPassword(event.target.value)}
+							className="h-11 rounded-2xl border border-white/10 bg-slate-950/60 px-4 text-sm text-slate-100 outline-none transition focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30"
+							placeholder="At least 8 characters"
+						/>
+					</label>
+				) : null}
 
 				{isSignup ? (
 					<label className="grid gap-2">
@@ -349,10 +404,20 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 				<div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<button
 						type="submit"
-						disabled={busy || identityAvailability === 'unavailable' || !email.trim() || !password || (isSignup && !confirmPassword)}
+						disabled={busy || identityAvailability === 'unavailable' || !email.trim() || (!isRecovery && !password) || (isSignup && !confirmPassword)}
 						className="inline-flex h-11 items-center justify-center rounded-full bg-amber-500 px-6 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/35 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
 					>
-						{busy ? (isSignup ? 'Creating…' : 'Signing in…') : isSignup ? 'Create Account' : 'Sign in'}
+						{busy
+							? isSignup
+								? 'Creating…'
+								: isRecovery
+									? 'Sending…'
+									: 'Signing in…'
+							: isSignup
+								? 'Create Account'
+								: isRecovery
+									? 'Send Reset Link'
+									: 'Sign in'}
 					</button>
 
 					<div className="text-sm text-slate-300">
@@ -374,6 +439,18 @@ export default function AuthPage({ mode: initialMode, defaultReturnTo = '/accoun
 									Sign in
 								</button>
 							</>
+						) : isRecovery ? (
+							<button
+								type="button"
+								onClick={() => {
+									setMode('login');
+									setError(null);
+									setSuccess(null);
+								}}
+								className="font-semibold text-amber-200 underline decoration-amber-400/40 underline-offset-4 transition hover:text-amber-100"
+							>
+								Back to sign in
+							</button>
 						) : (
 							<>
 								New customer?{' '}
