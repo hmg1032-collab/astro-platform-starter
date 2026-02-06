@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found | Abimanyu 3 Ltd" description="The page you are looking for does not exist." noIndex={true}>
+	<main class="flex min-h-screen flex-col items-center justify-center bg-[#050a18] px-6 text-center text-slate-100">
+		<h1 class="text-6xl font-extrabold text-amber-400">404</h1>
+		<p class="mt-4 text-xl font-semibold text-white">Page not found</p>
+		<p class="mt-2 max-w-md text-base text-slate-300">
+			Sorry, the page you are looking for does not exist or has been moved.
+		</p>
+		<a
+			href="/"
+			class="mt-8 inline-flex items-center rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/30 transition hover:bg-amber-400"
+		>
+			Go to Homepage
+		</a>
+	</main>
+</Layout>
