@@ -1,8 +1,3 @@
-# Domain-level redirects (processed first, force flag ensures they always apply)
-https://www.abimanyu3wholesale.com/* https://abimanyu3wholesale.com/:splat 301!
-https://abimanyu3wholesale.netlify.app/* https://abimanyu3wholesale.com/:splat 301!
-
-# Internal path redirects
 /delivery        /account 301
 /track-your-delivery /account 301
 /register /signup 301
