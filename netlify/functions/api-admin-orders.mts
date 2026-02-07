@@ -31,7 +31,7 @@ const getOrdersKey = (userId: string) => `orders/${userId}.json`;
 
 export default async (req: Request, context: Context) => {
 	const adminToken = process.env.ADMIN_API_TOKEN;
-	const providedToken = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? '';
+	const authHeader = req.headers.get('authorization');
 
 	if (!adminToken || !providedToken || providedToken !== adminToken) {
 		return json({ error: 'Unauthorized' }, { status: 401 });
